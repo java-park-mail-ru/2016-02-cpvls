@@ -33,38 +33,37 @@ public class Users {
     }
 
     @GET
-    @Path("{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUserByName(@PathParam("name") String name) {
-        final UserProfile user = accountService.getUser(name);
+    @Path("{id}")
+    @Produces("application/json")
+    public Response getUserById(@PathParam("id") long id) {
+        UserProfile user = accountService.getUser(id);
+        JSONObject answer = new JSONObject();
         if(user == null){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }else {
-            return Response.status(Response.Status.OK).entity(user).build();
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        } else {
+            return Response.status(Response.Status.OK).entity(user.toString()).build();
         }
     }
 
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
     public Response createUser(@FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
 
         UserProfile user = new UserProfile(login, password, email);
-        boolean user_is_possible = true;
-        boolean info_is_correct = true;
-        info_is_correct = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
-        user_is_possible = info_is_correct && (accountService.getUser(login) == null);
+        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
+        boolean isUserPossible = isCorrectInfo && !(accountService.isLoginBusy(login));
 
-        JSONArray answer = new JSONArray();
-
-        if ( !user_is_possible ) {
-            return Response.status(Response.Status.FORBIDDEN).entity(answer).build();
+        JSONObject answer = new JSONObject();
+        if ( !isUserPossible ) {
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        if(accountService.addUser(user.getLogin(), user)){
-            answer.put("xep");
-            return Response.status(Response.Status.OK).entity(answer).build();
+        if(accountService.addUser(user)){
+            answer.put("id", user.getId());
+            return Response.status(Response.Status.OK).entity(answer.toString()).build();
         } else {
-            return Response.status(Response.Status.FORBIDDEN).entity(answer).build();
+            answer.put("error", "Can't add user");
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
     }
 }

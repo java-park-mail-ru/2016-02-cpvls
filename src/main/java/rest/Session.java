@@ -1,6 +1,7 @@
 package rest;
 
 import main.AccountService;
+import org.json.JSONObject;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 @Singleton
@@ -26,51 +28,59 @@ public class Session {
 
     @PUT
     @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
     public Response login(@FormParam("login") String login, @FormParam("password") String password, @Context HttpServletRequest request) {
-        String ans = password;
-        final UserProfile user = accountService.getUser(login);
 
         boolean userFound = false;
-        if ( user != null ) {
-            if ( user.getPassword().equals(password) ) {
+        UserProfile currentUser = new UserProfile();
+
+        Iterator<UserProfile> it = accountService.getAllUsers().iterator();
+        while ( it.hasNext() && !userFound ) {
+            currentUser = it.next();
+            if ( currentUser.getLogin().equals(login) && currentUser.getPassword().equals(password) ) {
                 userFound = true;
             }
         }
 
-        if( !userFound ) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("").build();
+        JSONObject answer = new JSONObject();
+        if ( userFound ) {
+            String sessionId = request.getSession().getId();
+            currentSessions.put(sessionId, currentUser);
+
+            answer.put("id", currentUser.getId());
+            return Response.status(Response.Status.OK).entity(answer.toString()).build();
         }
 
-        String sessionId = request.getSession().getId();
-        currentSessions.put(sessionId, user);
-
-        return Response.status(Response.Status.OK).entity(user.getId()).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
     }
 
     @GET
     @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
     public Response isAuthorized(@Context HttpServletRequest request) {
         String sessionId = request.getSession().getId();
         UserProfile currentUser = currentSessions.get(sessionId);
 
+        JSONObject answer = new JSONObject();
+
         if ( currentUser == null ) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity(answer).build();
         }
 
-        return Response.status(Response.Status.OK).entity(currentUser).build();
+        answer.put("id", currentUser.getId());
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
-
 
     @DELETE
     @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
     public Response logout(@Context HttpServletRequest request) {
         String sessionId = request.getSession().getId();
         currentSessions.remove(sessionId);
-        return Response.status(Response.Status.OK).build();
-    }
 
+        JSONObject answer = new JSONObject();
+
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
+    }
 
 }

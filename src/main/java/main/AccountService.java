@@ -4,28 +4,39 @@ import rest.UserProfile;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class AccountService {
-    private Map<String, UserProfile> users = new HashMap<>();
+    private Map<Long, UserProfile> users = new HashMap<>();
+    private HashSet<String> busyLogins = new HashSet<String>();
 
     public AccountService() {
-        users.put("admin", new UserProfile("admin", "12345", "admin@mail.ru"));
-        users.put("guest", new UserProfile("guest", "12345", "guest@mail.ru"));
+        addUser(new UserProfile("admin", "12345", "admin@mail.ru"));
+        addUser(new UserProfile("guest", "12345", "guest@mail.ru"));
+    }
+
+    public boolean isLoginBusy(String login) {
+        return busyLogins.contains(login);
     }
 
     public Collection<UserProfile> getAllUsers() {
         return users.values();
     }
 
-    public boolean addUser(String userName, UserProfile userProfile) {
-        if (users.containsKey(userName))
+    public boolean addUser(UserProfile userProfile) {
+        if ( isLoginBusy(userProfile.getLogin()) )
             return false;
-        users.put(userName, userProfile);
+
+        userProfile.setId( userProfile.generateId() );
+        users.put(userProfile.getId(), userProfile);
+
+        busyLogins.add(userProfile.getLogin());
+
         return true;
     }
 
-    public UserProfile getUser(String userName) {
-        return users.get(userName);
+    public UserProfile getUser(long id) {
+        return users.get(id);
     }
 }
