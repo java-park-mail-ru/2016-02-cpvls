@@ -1,5 +1,7 @@
 package main;
 
+import rest.AccountService;
+import rest.SessionService;
 import rest.Users;
 import rest.Session;
 
@@ -13,10 +15,12 @@ public class RestApplication extends Application {
     @Override
     public Set<Object> getSingletons() {
         final HashSet<Object> objects = new HashSet<>();
-        AccountService accountService = new AccountService();
 
-        objects.add(new Users(accountService));
-        objects.add(new Session(accountService));
+        AccountService accountService = new AccountService();
+        SessionService sessionService = new SessionService();
+
+        objects.add(new Users(accountService, sessionService));
+        objects.add(new Session(accountService, sessionService));
         return objects;
     }
 }

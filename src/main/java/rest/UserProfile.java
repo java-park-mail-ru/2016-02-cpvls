@@ -7,13 +7,14 @@ import javax.validation.constraints.Null;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class UserProfile {
+
     @NotNull
     private String login;
     @NotNull
     private String password;
     @NotNull
     private String email;
-    @NotNull
+
     private long id;
 
     private static final AtomicLong ID_GENETATOR = new AtomicLong(0);
@@ -37,9 +38,7 @@ public class UserProfile {
         this.id = id;
     }
 
-    public long generateId() {
-        return ID_GENETATOR.getAndIncrement();
-    }
+    public long generateId() { return ID_GENETATOR.getAndIncrement(); }
 
     @NotNull
     public String getLogin() {
@@ -64,8 +63,7 @@ public class UserProfile {
 
     public void setEmail(@NotNull String email) { this.email = email; }
 
-    @NotNull
     public long getId() { return id; }
 
-    public void setId(@NotNull long id) { this.id = id; }
+    public void setId(long id) { this.id = id; }
 }

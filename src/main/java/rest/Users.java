@@ -1,28 +1,24 @@
 package rest;
 
-import main.AccountService;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Singleton;
-import javax.json.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 @Singleton
 @Path("/user")
 public class Users {
     private AccountService accountService;
+    private SessionService sessionService;
 
-    public Users(AccountService accountService) {
+    public Users(AccountService accountService, SessionService sessionService) {
         this.accountService = accountService;
+        this.sessionService = sessionService;
     }
 
     @GET
@@ -71,24 +67,53 @@ public class Users {
     @POST
     @Path("{id}")
     @Produces("application/json")
-    public Response editUser(@FormParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
+    public Response editUser(@PathParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email, @Context HttpServletRequest request){
+        JSONObject answer = new JSONObject();
 
         UserProfile user = accountService.getUser(id);
+        if ( user == null ) {
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        }
 
         boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
         boolean isUserPossible = isCorrectInfo && accountService.isLoginBusy(login);
 
-        JSONObject answer = new JSONObject();
         if ( !isUserPossible ) {
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        }
+
+        String sessionId = request.getSession().getId();
+        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        if ( sessionUser == null || sessionUser.getId() != id ) {
+            answer.put("status", 403);
+            answer.put("message", "Чужой юзер");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
         user.setLogin(login);
         user.setPassword(password);
         user.setEmail(email);
-       answer.put("id", user.getId());
-       return Response.status(Response.Status.OK).entity(answer.toString()).build();
+        answer.put("id", user.getId());
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
+    }
 
+    @DELETE
+    @Path("{id}")
+    @Produces("application/json")
+    public Response deleteUser(@PathParam("id") Long id, @Context HttpServletRequest request){
+        JSONObject answer = new JSONObject();
+
+        String sessionId = request.getSession().getId();
+        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+
+        if ( sessionUser == null || sessionUser.getId() != id ) {
+            answer.put("status", 403);
+            answer.put("message", "Чужой юзер");
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        }
+
+        accountService.deleteUser(id);
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
 
 }

@@ -1,29 +1,24 @@
 package rest;
 
-import main.AccountService;
 import org.json.JSONObject;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 @Singleton
 @Path("/session")
 public class Session {
     private AccountService accountService;
-    private HashMap<String, UserProfile> currentSessions;
+    private SessionService sessionService;
 
-    public Session(AccountService accountService) {
+    public Session(AccountService accountService, SessionService sessionService) {
         this.accountService = accountService;
-        currentSessions = new HashMap<String, UserProfile>();
+        this.sessionService = sessionService;
     }
 
     @PUT
@@ -45,7 +40,7 @@ public class Session {
         JSONObject answer = new JSONObject();
         if ( userFound ) {
             String sessionId = request.getSession().getId();
-            currentSessions.put(sessionId, currentUser);
+            sessionService.openSession(sessionId, currentUser);
 
             answer.put("id", currentUser.getId());
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
@@ -59,12 +54,12 @@ public class Session {
     @Produces("application/json")
     public Response isAuthorized(@Context HttpServletRequest request) {
         String sessionId = request.getSession().getId();
-        UserProfile currentUser = currentSessions.get(sessionId);
+        UserProfile currentUser = sessionService.getSessionData(sessionId);
 
         JSONObject answer = new JSONObject();
 
         if ( currentUser == null ) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(answer).build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
 
         answer.put("id", currentUser.getId());
@@ -76,10 +71,9 @@ public class Session {
     @Produces("application/json")
     public Response logout(@Context HttpServletRequest request) {
         String sessionId = request.getSession().getId();
-        currentSessions.remove(sessionId);
+        sessionService.closeSession(sessionId);
 
         JSONObject answer = new JSONObject();
-
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
 

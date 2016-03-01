@@ -1,4 +1,4 @@
-package main;
+package rest;
 
 import rest.UserProfile;
 
@@ -38,5 +38,9 @@ public class AccountService {
 
     public UserProfile getUser(long id) {
         return users.get(id);
+    }
+
+    public void deleteUser(long id) {
+        users.remove(id);
     }
 }
