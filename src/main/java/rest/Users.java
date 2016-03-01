@@ -31,25 +31,39 @@ public class Users {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Response getUserById(@PathParam("id") long id) {
-        UserProfile user = accountService.getUser(id);
+    public Response getUserById(@PathParam("id") long id, @Context HttpServletRequest request) {
+
         JSONObject answer = new JSONObject();
-        if(user == null){
-            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
-        } else {
-            return Response.status(Response.Status.OK).entity(user.toString()).build();
+
+        String sessionId = request.getSession().getId();
+        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+
+        if( sessionUser == null ){
+            return Response.status(Response.Status.NOT_FOUND).entity(answer.toString()).build();
         }
+
+        if ( sessionUser.getId() != id ) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
+        }
+
+
+        answer.put("id", sessionUser.getId());
+        answer.put("login", sessionUser.getLogin());
+        answer.put("email", sessionUser.getEmail());
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
+
     }
 
     @PUT
     @Produces("application/json")
     public Response createUser(@FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
 
+        JSONObject answer = new JSONObject();
+
         UserProfile user = new UserProfile(login, password, email);
         boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
         boolean isUserPossible = isCorrectInfo && !(accountService.isLoginBusy(login));
 
-        JSONObject answer = new JSONObject();
         if ( !isUserPossible ) {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
@@ -61,6 +75,7 @@ public class Users {
             answer.put("error", "Can't add user");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
+
     }
 
 
@@ -68,6 +83,7 @@ public class Users {
     @Path("{id}")
     @Produces("application/json")
     public Response editUser(@PathParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email, @Context HttpServletRequest request){
+
         JSONObject answer = new JSONObject();
 
         UserProfile user = accountService.getUser(id);
@@ -95,12 +111,14 @@ public class Users {
         user.setEmail(email);
         answer.put("id", user.getId());
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
+
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
     public Response deleteUser(@PathParam("id") Long id, @Context HttpServletRequest request){
+
         JSONObject answer = new JSONObject();
 
         String sessionId = request.getSession().getId();
@@ -113,7 +131,10 @@ public class Users {
         }
 
         accountService.deleteUser(id);
+        sessionService.closeSession(sessionId);
+
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
+
     }
 
 }

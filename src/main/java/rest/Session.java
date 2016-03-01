@@ -70,10 +70,11 @@ public class Session {
     @Path("")
     @Produces("application/json")
     public Response logout(@Context HttpServletRequest request) {
+        JSONObject answer = new JSONObject();
+
         String sessionId = request.getSession().getId();
         sessionService.closeSession(sessionId);
 
-        JSONObject answer = new JSONObject();
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
 
