@@ -66,4 +66,29 @@ public class Users {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
     }
+
+
+    @POST
+    @Path("{id}")
+    @Produces("application/json")
+    public Response editUser(@FormParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
+
+        UserProfile user = accountService.getUser(id);
+
+        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
+        boolean isUserPossible = isCorrectInfo && accountService.isLoginBusy(login);
+
+        JSONObject answer = new JSONObject();
+        if ( !isUserPossible ) {
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        }
+
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setEmail(email);
+       answer.put("id", user.getId());
+       return Response.status(Response.Status.OK).entity(answer.toString()).build();
+
+    }
+
 }
