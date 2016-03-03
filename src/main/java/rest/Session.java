@@ -26,23 +26,15 @@ public class Session {
     @Produces("application/json")
     public Response login(@FormParam("login") String login, @FormParam("password") String password, @Context HttpServletRequest request) {
 
-        boolean userFound = false;
-        UserProfile currentUser = new UserProfile();
-
-        Iterator<UserProfile> it = accountService.getAllUsers().iterator();
-        while ( it.hasNext() && !userFound ) {
-            currentUser = it.next();
-            if ( currentUser.getLogin().equals(login) && currentUser.getPassword().equals(password) ) {
-                userFound = true;
-            }
-        }
-
         JSONObject answer = new JSONObject();
-        if ( userFound ) {
-            String sessionId = request.getSession().getId();
-            sessionService.openSession(sessionId, currentUser);
 
-            answer.put("id", currentUser.getId());
+        UserProfile foundUser = accountService.getUser(login);
+
+        if ( foundUser != null ) {
+            String sessionId = request.getSession().getId();
+            sessionService.openSession(sessionId, foundUser);
+
+            answer.put("id", foundUser.getId());
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
         }
 

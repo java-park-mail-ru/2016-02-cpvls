@@ -40,6 +40,10 @@ public class AccountService {
         return users.get(id);
     }
 
+    public UserProfile getUser(String login) {
+        return usersByLogins.get(login);
+    }
+
     public void deleteUser(long id) {
         users.remove(id);
     }
