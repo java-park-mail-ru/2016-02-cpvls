@@ -22,7 +22,7 @@ public class Session {
     }
 
     @PUT
-    @Path("")
+    @Path("{name}")
     @Produces("application/json")
     public Response login(@FormParam("login") String login, @FormParam("password") String password, @Context HttpServletRequest request) {
 

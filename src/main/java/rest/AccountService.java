@@ -1,5 +1,6 @@
 package rest;
 
+import org.eclipse.jetty.server.Authentication;
 import rest.UserProfile;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class AccountService {
     private Map<Long, UserProfile> users = new HashMap<>();
-    private HashSet<String> busyLogins = new HashSet<String>();
+    private Map<String, UserProfile> usersByLogins = new HashMap<>();
 
     public AccountService() {
         addUser(new UserProfile("admin", "12345", "admin@mail.ru"));
@@ -17,7 +18,7 @@ public class AccountService {
     }
 
     public boolean isLoginBusy(String login) {
-        return busyLogins.contains(login);
+        return usersByLogins.containsKey(login);
     }
 
     public Collection<UserProfile> getAllUsers() {
@@ -30,8 +31,7 @@ public class AccountService {
 
         userProfile.setId( userProfile.generateId() );
         users.put(userProfile.getId(), userProfile);
-
-        busyLogins.add(userProfile.getLogin());
+        usersByLogins.put(userProfile.getLogin(), userProfile);
 
         return true;
     }
