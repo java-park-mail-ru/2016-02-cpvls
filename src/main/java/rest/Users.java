@@ -39,11 +39,11 @@ public class Users {
         UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if( sessionUser == null ){
-            return Response.status(Response.Status.NOT_FOUND).entity(answer.toString()).build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
 
         if ( sessionUser.getId() != id ) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
 
