@@ -22,7 +22,6 @@ public class Session {
     }
 
     @PUT
-    @Path("{name}")
     @Produces("application/json")
     public Response login(@FormParam("login") String login, @FormParam("password") String password, @Context HttpServletRequest request) {
 
@@ -42,7 +41,6 @@ public class Session {
     }
 
     @GET
-    @Path("")
     @Produces("application/json")
     public Response isAuthorized(@Context HttpServletRequest request) {
         String sessionId = request.getSession().getId();
@@ -59,7 +57,6 @@ public class Session {
     }
 
     @DELETE
-    @Path("")
     @Produces("application/json")
     public Response logout(@Context HttpServletRequest request) {
         JSONObject answer = new JSONObject();

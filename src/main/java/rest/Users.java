@@ -13,8 +13,8 @@ import java.util.Collection;
 @Singleton
 @Path("/user")
 public class Users {
-    private AccountService accountService;
-    private SessionService sessionService;
+    private final AccountService accountService;
+    private final SessionService sessionService;
 
     public Users(AccountService accountService, SessionService sessionService) {
         this.accountService = accountService;
