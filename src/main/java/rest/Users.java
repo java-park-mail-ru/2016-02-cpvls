@@ -13,8 +13,8 @@ import java.util.Collection;
 @Singleton
 @Path("/user")
 public class Users {
-    private AccountService accountService;
-    private SessionService sessionService;
+    private final AccountService accountService;
+    private final SessionService sessionService;
 
     public Users(AccountService accountService, SessionService sessionService) {
         this.accountService = accountService;
@@ -39,14 +39,9 @@ public class Users {
         UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if( sessionUser == null ){
-            return Response.status(Response.Status.NOT_FOUND).entity(answer.toString()).build();
-        }
-
-        if ( sessionUser.getId() != id ) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
-
-
+        
         answer.put("id", sessionUser.getId());
         answer.put("login", sessionUser.getLogin());
         answer.put("email", sessionUser.getEmail());

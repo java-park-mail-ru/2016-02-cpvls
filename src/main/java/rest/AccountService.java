@@ -1,13 +1,19 @@
 package rest;
 
 import org.eclipse.jetty.server.Authentication;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.servlet.ServletContainer;
 import rest.UserProfile;
 
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+@Singleton
 public class AccountService {
     private Map<Long, UserProfile> users = new HashMap<>();
     private Map<String, UserProfile> usersByLogins = new HashMap<>();
@@ -47,4 +53,5 @@ public class AccountService {
     public void deleteUser(long id) {
         users.remove(id);
     }
+
 }
