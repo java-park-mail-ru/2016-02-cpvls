@@ -12,7 +12,6 @@ import java.util.Map;
 public class SessionService {
     private Map<String, UserProfile> currentSessions = new HashMap<>();
 
-
     public void openSession(String id, UserProfile user) {
         currentSessions.put(id, user);
     }

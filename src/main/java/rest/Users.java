@@ -41,12 +41,7 @@ public class Users {
         if( sessionUser == null ){
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
-
-        if ( sessionUser.getId() != id ) {
-            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
-        }
-
-
+        
         answer.put("id", sessionUser.getId());
         answer.put("login", sessionUser.getLogin());
         answer.put("email", sessionUser.getEmail());
