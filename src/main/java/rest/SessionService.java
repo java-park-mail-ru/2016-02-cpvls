@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-@Singleton
 public class SessionService {
     private Map<String, UserProfile> currentSessions = new HashMap<>();
 

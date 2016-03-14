@@ -17,8 +17,6 @@ public class UserProfile {
 
     private long id;
 
-    private static final AtomicLong ID_GENETATOR = new AtomicLong(0);
-
     public UserProfile() {
         login = "";
         password = "";
@@ -37,8 +35,6 @@ public class UserProfile {
         this.email = email;
         this.id = id;
     }
-
-    public long generateId() { return ID_GENETATOR.getAndIncrement(); }
 
     @NotNull
     public String getLogin() {
