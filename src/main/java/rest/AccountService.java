@@ -10,7 +10,6 @@ import rest.UserProfile;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 

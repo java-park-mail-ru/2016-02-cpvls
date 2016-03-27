@@ -1,6 +1,7 @@
 package rest;
 
 import org.json.JSONObject;
+import org.json.JSONString;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import java.util.Collection;
 
 @Singleton
 @Path("/user")
+@Produces(MediaType.APPLICATION_JSON)
 public class Users {
     private final AccountService accountService;
     private final SessionService sessionService;
@@ -22,7 +24,6 @@ public class Users {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
         final Collection<UserProfile> allUsers = accountService.getAllUsers();
         return Response.status(Response.Status.OK).entity(allUsers.toArray(new UserProfile[allUsers.size()])).build();
@@ -30,7 +31,6 @@ public class Users {
 
     @GET
     @Path("{id}")
-    @Produces("application/json")
     public Response getUserById(@PathParam("id") long id, @Context HttpServletRequest request) {
 
         JSONObject answer = new JSONObject();
@@ -41,7 +41,7 @@ public class Users {
         if( sessionUser == null ){
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
-        
+
         answer.put("id", sessionUser.getId());
         answer.put("login", sessionUser.getLogin());
         answer.put("email", sessionUser.getEmail());
@@ -49,15 +49,24 @@ public class Users {
 
     }
 
+    @Consumes(MediaType.APPLICATION_JSON)
     @PUT
-    @Produces("application/json")
-    public Response createUser(@FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
+    public Response createUser(String userInput, @Context HttpServletRequest request){
 
         JSONObject answer = new JSONObject();
+        JSONObject inp = new JSONObject(userInput);
+
+        String login = inp.optString("login");
+        String password = inp.optString("password");
+        String email = inp.optString("email");
+
+        if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
+            answer.put("error", "Login, password, email should be not empty");
+            return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
+        }
 
         UserProfile user = new UserProfile(login, password, email);
-        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
-        boolean isUserPossible = isCorrectInfo && !(accountService.isLoginBusy(login));
+        boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
@@ -76,20 +85,30 @@ public class Users {
 
     @POST
     @Path("{id}")
-    @Produces("application/json")
-    public Response editUser(@PathParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email, @Context HttpServletRequest request){
+    public Response editUser(@PathParam("id") Long id, String userInput, @Context HttpServletRequest request){
 
         JSONObject answer = new JSONObject();
+        JSONObject inp = new JSONObject(userInput);
 
         UserProfile user = accountService.getUser(id);
         if ( user == null ) {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
+        String login = inp.optString("login");
+        String password = inp.optString("password");
+        String email = inp.optString("email");
+
         boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
-        boolean isUserPossible = isCorrectInfo && accountService.isLoginBusy(login);
+        boolean isUserPossible = !accountService.isLoginBusy(login);
+
+        if ( !isCorrectInfo ) {
+            answer.put("error", "Login, password, email should not be empty");
+            return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
+        }
 
         if ( !isUserPossible ) {
+            answer.put("error", "This login is already busy");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -111,7 +130,6 @@ public class Users {
 
     @DELETE
     @Path("{id}")
-    @Produces("application/json")
     public Response deleteUser(@PathParam("id") Long id, @Context HttpServletRequest request){
 
         JSONObject answer = new JSONObject();
@@ -129,7 +147,6 @@ public class Users {
         sessionService.closeSession(sessionId);
 
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
-
     }
 
 }
