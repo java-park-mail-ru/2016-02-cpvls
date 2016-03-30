@@ -2,9 +2,6 @@ package rest
 
 import junit.framework.Test
 import main.AccountServiceMapImpl
-import org.glassfish.hk2.utilities.binding.AbstractBinder
-import org.glassfish.jersey.server.ResourceConfig
-import org.glassfish.jersey.test.JerseyTest
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -12,57 +9,19 @@ import org.junit.Test
 import main.AccountService
 
 import javax.inject.Inject
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
-import javax.ws.rs.core.Application
 import java.util.concurrent.atomic.AtomicLong
-
-import static org.mockito.Mockito.mock
-import static org.mockito.Mockito.mock
-import static org.mockito.Mockito.when
-import static org.mockito.Mockito.when
 
 /**
  * Created by polina on 14.03.16.
  */
-class AccountServiceTest extends JerseyTest {
-//
-//    @Inject
-//    private Context context;
+class AccountServiceTest extends GroovyTestCase {
 
-    @Override
-    protected Application configure() {
-        final Context context = new Context();
-
-        context.put(AccountService.class, new AccountServiceMapImpl());
-        context.put(SessionService.class, new SessionService());
-
-        final HashSet<Class<?>> objects = new HashSet<>();
-        objects.add(Users.class);
-        objects.add(Session.class);
-
-        final ResourceConfig config = new ResourceConfig(objects);
-        config.register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(context);
-            }
-        });
-        return config;
-    }
-
-
-
-
-//
-//    private AccountService accountService;
-//    private SessionService sessionService;
+    private AccountService accountService;
+    private SessionService sessionService;
 
     @Before
     public void setUp() {
-
-        AccountService accountService = context.get(AccountService.class);
-//        final AccountService accountService = new AccountServiceMapImpl();
+        accountService = new AccountServiceMapImpl();
     }
 
     @Test
