@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="21e4a1b7-9e87-48c2-8fca-8179cb900f8a" name="Default" comment="Добавлены Unit тестики на AccountService">
+    <list default="true" id="21e4a1b7-9e87-48c2-8fca-8179cb900f8a" name="Default" comment="Добавлены Unit тестики на AccountService и RestApi">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" afterPath="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" />
     </list>
     <ignored path="L1.3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -895,7 +894,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459351598719</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Добавлены Unit тестики на AccountService и RestApi">
+      <created>1459357033974</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1459357033974</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1010,7 +1015,8 @@
     <MESSAGE value="Поправлено:&#10;- Починен Session-&gt;login. Теперь поиск юзера за О(1)" />
     <MESSAGE value="Удалена папка target" />
     <MESSAGE value="Добавлены Unit тестики на AccountService" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлены Unit тестики на AccountService" />
+    <MESSAGE value="Добавлены Unit тестики на AccountService и RestApi" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлены Unit тестики на AccountService и RestApi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
