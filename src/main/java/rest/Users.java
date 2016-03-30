@@ -1,8 +1,9 @@
 package rest;
 
+import main.AccountService;
 import org.json.JSONObject;
-import org.json.JSONString;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -15,16 +16,20 @@ import java.util.Collection;
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
 public class Users {
-    private final AccountService accountService;
-    private final SessionService sessionService;
+    @Inject
+    private rest.Context context;
 
-    public Users(AccountService accountService, SessionService sessionService) {
-        this.accountService = accountService;
-        this.sessionService = sessionService;
-    }
+//    private final AccountService accountService;
+//    private final SessionService sessionService;
+//
+//    public Users(AccountService accountService, SessionService sessionService) {
+//        this.accountService = accountService;
+//        this.sessionService = sessionService;
+//    }
 
     @GET
     public Response getAllUsers() {
+        final AccountService accountService = context.get(AccountService.class);
         final Collection<UserProfile> allUsers = accountService.getAllUsers();
         return Response.status(Response.Status.OK).entity(allUsers.toArray(new UserProfile[allUsers.size()])).build();
     }
@@ -34,6 +39,7 @@ public class Users {
     public Response getUserById(@PathParam("id") long id, @Context HttpServletRequest request) {
 
         JSONObject answer = new JSONObject();
+        final SessionService sessionService = context.get(SessionService.class);
 
         String sessionId = request.getSession().getId();
         UserProfile sessionUser = sessionService.getSessionData(sessionId);
@@ -53,6 +59,7 @@ public class Users {
     @PUT
     public Response createUser(String userInput, @Context HttpServletRequest request){
 
+        final AccountService accountService = context.get(AccountService.class);
         JSONObject answer = new JSONObject();
         JSONObject inp = new JSONObject(userInput);
 
@@ -62,7 +69,7 @@ public class Users {
 
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
             answer.put("error", "Login, password, email should be not empty");
-            return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
         UserProfile user = new UserProfile(login, password, email);
@@ -87,6 +94,8 @@ public class Users {
     @Path("{id}")
     public Response editUser(@PathParam("id") Long id, String userInput, @Context HttpServletRequest request){
 
+        final AccountService accountService = context.get(AccountService.class);
+        final SessionService sessionService = context.get(SessionService.class);
         JSONObject answer = new JSONObject();
         JSONObject inp = new JSONObject(userInput);
 
@@ -99,7 +108,7 @@ public class Users {
         String password = inp.optString("password");
         String email = inp.optString("email");
 
-        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
+        boolean isCorrectInfo = (login.isEmpty() || password.isEmpty() || email.isEmpty());
         boolean isUserPossible = !accountService.isLoginBusy(login);
 
         if ( !isCorrectInfo ) {
@@ -132,6 +141,8 @@ public class Users {
     @Path("{id}")
     public Response deleteUser(@PathParam("id") Long id, @Context HttpServletRequest request){
 
+        final AccountService accountService = context.get(AccountService.class);
+        final SessionService sessionService = context.get(SessionService.class);
         JSONObject answer = new JSONObject();
 
         String sessionId = request.getSession().getId();

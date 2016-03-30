@@ -8,4 +8,13 @@ class RestApplicationTest extends GroovyTestCase {
     void testGetSingletons() {
 
     }
+
+
+    @Test
+    void getAllUsers() {
+
+    }
+
 }
+
+

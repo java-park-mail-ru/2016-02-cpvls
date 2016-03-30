@@ -1,12 +1,14 @@
 package rest
 
 import junit.framework.Test
+import main.AccountServiceMapImpl
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import rest.AccountService
+import main.AccountService
 
+import javax.inject.Inject
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -14,12 +16,19 @@ import java.util.concurrent.atomic.AtomicLong
  */
 class AccountServiceTest extends GroovyTestCase {
 
+    @Inject
+    private Context context;
+
+
+
     private AccountService accountService;
     private SessionService sessionService;
 
     @Before
     public void setUp() {
-        accountService = new AccountService();
+
+        AccountService accountService = context.get(AccountService);
+//        final AccountService accountService = new AccountServiceMapImpl();
     }
 
     @Test

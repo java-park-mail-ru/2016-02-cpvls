@@ -1,8 +1,10 @@
 package rest;
 
+import main.AccountService;
 import org.json.JSONObject;
 import org.json.JSONString;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -14,19 +16,23 @@ import java.util.Iterator;
 
 @Singleton
 @Path("/session")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class Session {
-    private AccountService accountService;
-    private SessionService sessionService;
 
-    public Session(AccountService accountService, SessionService sessionService) {
-        this.accountService = accountService;
-        this.sessionService = sessionService;
-    }
+    @Inject
+    private rest.Context context;
 
+//    public Session(AccountService accountService, SessionService sessionService) {
+//        this.accountService = accountService;
+//        this.sessionService = sessionService;
+//    }
+
+    @Consumes(MediaType.APPLICATION_JSON)
     @PUT
     public Response login(String userInput, @Context HttpServletRequest request) {
+
+        final AccountService accountService = context.get(AccountService.class);
+        final SessionService sessionService = context.get(SessionService.class);
 
         JSONObject answer = new JSONObject();
         JSONObject inp = new JSONObject(userInput);
@@ -52,6 +58,7 @@ public class Session {
 
     @GET
     public Response isAuthorized(@Context HttpServletRequest request) {
+        final SessionService sessionService = context.get(SessionService.class);
         String sessionId = request.getSession().getId();
         UserProfile currentUser = sessionService.getSessionData(sessionId);
 
@@ -67,6 +74,7 @@ public class Session {
 
     @DELETE
     public Response logout(@Context HttpServletRequest request) {
+        final SessionService sessionService = context.get(SessionService.class);
         JSONObject answer = new JSONObject();
 
         String sessionId = request.getSession().getId();
