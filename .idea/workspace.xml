@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="21e4a1b7-9e87-48c2-8fca-8179cb900f8a" name="Default" comment="Добавлены Unit тестики на AccountService">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" afterPath="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" />
     </list>
     <ignored path="L1.3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/src/tests/java/rest/ServletTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="216" column="19" selection-start-line="216" selection-start-column="19" selection-end-line="216" selection-end-column="19" />
+              <caret line="28" column="36" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AccountServiceTest.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AccountServiceTest.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54915255">
-              <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
               <folding>
                 <element signature="e#14#41#0" expanded="true" />
               </folding>
@@ -129,12 +130,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.5322581">
+              <caret line="18" column="78" selection-start-line="18" selection-start-column="78" selection-end-line="18" selection-end-column="78" />
+              <folding>
+                <element signature="e#238#282#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -181,11 +184,11 @@
         <option value="$PROJECT_DIR$/src/main/java/main/AccountServiceMapImplDB.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/RestApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/AccountService.java" />
-        <option value="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/rest/Session.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/tests/java/rest/ServletTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/rest/Users.java" />
+        <option value="$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy" />
       </list>
     </option>
   </component>
@@ -380,33 +383,7 @@
       <recent name="$PROJECT_DIR$/src/Tests/java/main" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServletTest.testEditAdminSuccess">
-    <configuration default="false" name="ServletTest.testGetAdminFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="rest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="L1.3" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="rest" />
-      <option name="MAIN_CLASS_NAME" value="rest.ServletTest" />
-      <option name="METHOD_NAME" value="testGetAdminFail" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="ServletTest.testEditAdminSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -420,32 +397,6 @@
       <option name="PACKAGE_NAME" value="rest" />
       <option name="MAIN_CLASS_NAME" value="rest.ServletTest" />
       <option name="METHOD_NAME" value="testEditAdminSuccess" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="ServletTest.testGetAllUsers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="rest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="L1.3" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="rest" />
-      <option name="MAIN_CLASS_NAME" value="rest.ServletTest" />
-      <option name="METHOD_NAME" value="testGetAllUsers" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -498,6 +449,58 @@
       <option name="PACKAGE_NAME" value="rest" />
       <option name="MAIN_CLASS_NAME" value="rest.ServletTest" />
       <option name="METHOD_NAME" value="testDeleteAdminFail" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="AccountServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="rest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="L1.3" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="rest" />
+      <option name="MAIN_CLASS_NAME" value="rest.AccountServiceTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="AccountServiceTest.testIsLoginBusy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="rest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="L1.3" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="rest" />
+      <option name="MAIN_CLASS_NAME" value="rest.AccountServiceTest" />
+      <option name="METHOD_NAME" value="testIsLoginBusy" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -811,19 +814,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ServletTest.testGetAdminFail" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.ServletTest.testEditAdminSuccess" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.ServletTest.testGetAllUsers" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminSuccess" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminFail" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.ServletTest.testEditAdminSuccess" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminSuccess" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminFail" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.AccountServiceTest" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.AccountServiceTest.testIsLoginBusy" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.ServletTest.testEditAdminSuccess" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminFail" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminSuccess" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.ServletTest.testGetAllUsers" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ServletTest.testGetAdminFail" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.AccountServiceTest.testIsLoginBusy" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.AccountServiceTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ServletTest.testEditAdminSuccess" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminFail" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ServletTest.testDeleteAdminSuccess" />
       </list>
     </recent_temporary>
   </component>
@@ -886,21 +889,27 @@
       <option name="project" value="LOCAL" />
       <updated>1459351229227</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Добавлены Unit тестики на AccountService">
+      <created>1459351598719</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1459351598719</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ServletTest_testDeleteAdminFail - 2016.03.30 at 12h 41m 41s.xml">
-      <configuration name="ServletTest.testDeleteAdminFail" configurationId="JUnit" />
+    <history-entry file="AccountServiceTest - 2016.03.30 at 18h 58m 10s.xml">
+      <configuration name="AccountServiceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServletTest_testDeleteAdminSuccess - 2016.03.30 at 12h 41m 17s.xml">
-      <configuration name="ServletTest.testDeleteAdminSuccess" configurationId="JUnit" />
+    <history-entry file="AccountServiceTest - 2016.03.30 at 19h 01m 18s.xml">
+      <configuration name="AccountServiceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServletTest_testEditAdminSuccess - 2016.03.30 at 12h 18m 09s.xml">
-      <configuration name="ServletTest.testEditAdminSuccess" configurationId="JUnit" />
+    <history-entry file="AccountServiceTest - 2016.03.30 at 19h 02m 02s.xml">
+      <configuration name="AccountServiceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServletTest_testEditAdminSuccess - 2016.03.30 at 12h 42m 47s.xml">
-      <configuration name="ServletTest.testEditAdminSuccess" configurationId="JUnit" />
+    <history-entry file="AccountServiceTest_testIsLoginBusy - 2016.03.30 at 19h 47m 27s.xml">
+      <configuration name="AccountServiceTest.testIsLoginBusy" configurationId="JUnit" />
     </history-entry>
     <history-entry file="ServletTest_testGetAllUsers - 2016.03.30 at 12h 24m 33s.xml">
       <configuration name="ServletTest.testGetAllUsers" configurationId="JUnit" />
@@ -948,7 +957,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31553784" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3516129" sideWeight="0.82057613" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3516129" sideWeight="0.82057613" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1008,19 +1017,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy</url>
-          <line>65</line>
+          <line>99</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy</url>
-          <line>72</line>
+          <line>106</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy</url>
-          <line>58</line>
+          <line>92</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
@@ -1351,14 +1360,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/AccountServiceMapImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1429,7 +1430,7 @@
     <entry file="file://$PROJECT_DIR$/src/tests/java/rest/ServletTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="216" column="19" selection-start-line="216" selection-start-column="19" selection-end-line="216" selection-end-column="19" />
+          <caret line="28" column="36" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1438,10 +1439,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tests/java/rest/AccountServiceTest.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54915255">
-          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
           <folding>
             <element signature="e#14#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5322581">
+          <caret line="18" column="78" selection-start-line="18" selection-start-column="78" selection-end-line="18" selection-end-column="78" />
+          <folding>
+            <element signature="e#238#282#0" expanded="true" />
           </folding>
         </state>
       </provider>
