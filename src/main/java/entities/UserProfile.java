@@ -1,19 +1,16 @@
-package rest;
+package entities;
 
+import datasets.UserDataSet;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.validation.constraints.Null;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class UserProfile {
 
     @NotNull
-    private String login;
+    private String login = "";
     @NotNull
-    private String password;
+    private String password = "";
     @NotNull
-    private String email;
+    private String email = "";
 
     private long id;
 
@@ -21,6 +18,13 @@ public class UserProfile {
         login = "";
         password = "";
         email = "";
+    }
+
+    public UserProfile(UserDataSet uds) {
+        login = uds.getLogin();
+        password = uds.getPassword();
+        email = uds.getEmail();
+        id = uds.getId();
     }
 
     public UserProfile(@NotNull String login, @NotNull String password, @NotNull String email) {

@@ -1,15 +1,11 @@
 package rest
 
-import junit.framework.Test
-import main.AccountServiceMapImpl
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
-
+import entities.UserProfile
 import main.AccountService
-
-import javax.inject.Inject
-import java.util.concurrent.atomic.AtomicLong
+import main.AccountServiceMapImplDB
+import main.SessionService
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Created by polina on 14.03.16.
@@ -21,17 +17,27 @@ class AccountServiceTest extends GroovyTestCase {
 
     @Before
     public void setUp() {
-        accountService = new AccountServiceMapImpl();
+        accountService = new AccountServiceMapImplDB();
+
+        UserProfile user = new UserProfile("testLogin", "testPass", "test@mail.ru");
+        accountService.addUser(user);
+    }
+
+    @Test
+    void testAddUser() {
+        UserProfile user = new UserProfile("testLogin2", "testPass2", "test2@mail.ru");
+        accountService.addUser(user);
+        assertEquals(true, accountService.isLoginBusy("testLogin2"));
     }
 
     @Test
     void testIsLoginBusy() {
-        assertEquals(true, accountService.isLoginBusy("admin"));
+        assertEquals(false, accountService.isLoginBusy("admin"));
     }
 
     @Test
     void testIsLoginBusy2() {
-        assertEquals(false, accountService.isLoginBusy("admin5"));
+        assertEquals(true, accountService.isLoginBusy("testLogin"));
     }
 
     @Test
@@ -41,30 +47,15 @@ class AccountServiceTest extends GroovyTestCase {
     }
 
     @Test
-    void testAddUser() {
-        UserProfile user = new UserProfile("testLogin", "testPass", "test@mail.ru");
-        accountService.addUser(user);
-        assertEquals(true, accountService.isLoginBusy("testLogin"));
-    }
-
-    @Test
-    void testGetUser1() {
-        long id  = 0;
-        UserProfile user = accountService.getUser(id);
-        assertEquals("admin", user.getLogin());
-    }
-
-    @Test
     void testGetUser() {
-        long id  = 0;
-        UserProfile user = accountService.getUser(id);
-        assertEquals("admin", user.getLogin());
+        UserProfile user = accountService.getUser("testLogin");
+        assertEquals("testLogin", user.getLogin());
     }
 
     @Test
     void testDeleteUser() {
-        long id  = 0;
+        long id  = accountService.getUser("testLogin").getId();
         accountService.deleteUser(id);
-        assertEquals(null, accountService.getUser(id));
+        assertEquals("", accountService.getUser(id).getLogin());
     }
 }

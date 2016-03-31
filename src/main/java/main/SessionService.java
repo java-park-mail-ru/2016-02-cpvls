@@ -1,15 +1,12 @@
-package rest;
+package main;
 
-import rest.UserProfile;
+import entities.UserProfile;
 
-import javax.inject.Singleton;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class SessionService {
-    private Map<String, UserProfile> currentSessions = new HashMap<>();
+    private final Map<String, UserProfile> currentSessions = new HashMap<>();
 
     public void openSession(String id, UserProfile user) {
         currentSessions.put(id, user);

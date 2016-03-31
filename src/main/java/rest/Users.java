@@ -1,6 +1,8 @@
 package rest;
 
+import entities.UserProfile;
 import main.AccountService;
+import main.SessionService;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -17,15 +19,7 @@ import java.util.Collection;
 @Produces(MediaType.APPLICATION_JSON)
 public class Users {
     @Inject
-    private rest.Context context;
-
-//    private final AccountService accountService;
-//    private final SessionService sessionService;
-//
-//    public Users(AccountService accountService, SessionService sessionService) {
-//        this.accountService = accountService;
-//        this.sessionService = sessionService;
-//    }
+    private main.Context context;
 
     @GET
     public Response getAllUsers() {
@@ -68,7 +62,7 @@ public class Users {
         String email = inp.optString("email");
 
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
-            answer.put("error", "Login, password, email should be not empty");
+            answer.put("error", "Должны быть указаны поля логин, пароль и почта.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -76,14 +70,16 @@ public class Users {
         boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
+            answer.put("error", "Логин занят");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        if(accountService.addUser(user)){
-            answer.put("id", user.getId());
+        long userId = accountService.addUser(user);
+        if(userId != -1){
+            answer.put("id", userId);
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
         } else {
-            answer.put("error", "Can't add user");
+            answer.put("message", "Не удалось создать пользователя.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -96,11 +92,12 @@ public class Users {
 
         final AccountService accountService = context.get(AccountService.class);
         final SessionService sessionService = context.get(SessionService.class);
-        JSONObject answer = new JSONObject();
         JSONObject inp = new JSONObject(userInput);
+        JSONObject answer = new JSONObject();
 
         UserProfile user = accountService.getUser(id);
         if ( user == null ) {
+            answer.put("message", "Необходима авторизация.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -108,17 +105,11 @@ public class Users {
         String password = inp.optString("password");
         String email = inp.optString("email");
 
-        boolean isCorrectInfo = (login.isEmpty() || password.isEmpty() || email.isEmpty());
-        boolean isUserPossible = !accountService.isLoginBusy(login);
-
-        if ( !isCorrectInfo ) {
-            answer.put("error", "Login, password, email should not be empty");
-            return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
-        }
-
-        if ( !isUserPossible ) {
-            answer.put("error", "This login is already busy");
-            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        if( ! login.isEmpty() ) {
+            if ( accountService.isLoginBusy(login) ) {
+                answer.put("error", "Логин занят");
+                return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+            }
         }
 
         String sessionId = request.getSession().getId();
@@ -129,12 +120,16 @@ public class Users {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setEmail(email);
-        answer.put("id", user.getId());
-        return Response.status(Response.Status.OK).entity(answer.toString()).build();
+        if ( !login.isEmpty() )
+            user.setLogin(login);
+        if ( !password.isEmpty() )
+            user.setPassword(password);
+        if ( !email.isEmpty() )
+            user.setEmail(email);
 
+        long resultId = accountService.editUser(id, user);
+        answer.put("id", resultId);
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
 
     @DELETE

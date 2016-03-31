@@ -1,8 +1,9 @@
 package rest;
 
+import entities.UserProfile;
 import main.AccountService;
+import main.SessionService;
 import org.json.JSONObject;
-import org.json.JSONString;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,8 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Iterator;
 
 @Singleton
 @Path("/session")
@@ -20,7 +19,7 @@ import java.util.Iterator;
 public class Session {
 
     @Inject
-    private rest.Context context;
+    private main.Context context;
 
 //    public Session(AccountService accountService, SessionService sessionService) {
 //        this.accountService = accountService;
