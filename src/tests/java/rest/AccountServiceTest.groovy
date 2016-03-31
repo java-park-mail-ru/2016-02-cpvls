@@ -19,42 +19,55 @@ class AccountServiceTest extends GroovyTestCase {
     public void setUp() {
         accountService = new AccountServiceMapImplDB();
 
-        UserProfile user = new UserProfile("testLogin", "testPass", "test@mail.ru");
-        accountService.addUser(user);
-    }
 
-    @Test
-    void testAddUser() {
-        UserProfile user = new UserProfile("testLogin2", "testPass2", "test2@mail.ru");
-        accountService.addUser(user);
-        assertEquals(true, accountService.isLoginBusy("testLogin2"));
+        UserProfile testData = new UserProfile("admin", "12345", "admin@mail.ru");
+        accountService.addUser(testData);
+
+        testData.setLogin("guest");
+        testData.setEmail("guest@mail.ru");
+        accountService.addUser(testData);
+
     }
 
     @Test
     void testIsLoginBusy() {
-        assertEquals(false, accountService.isLoginBusy("admin"));
+        assertEquals(true, accountService.isLoginBusy("admin"));
     }
 
     @Test
     void testIsLoginBusy2() {
-        assertEquals(true, accountService.isLoginBusy("testLogin"));
+        assertEquals(false, accountService.isLoginBusy("guest2"));
     }
 
     @Test
     void testGetAllUsers() {
- //       Collection<UserProfile> allUsers = accountService.getAllUsers()
-   //     assertEquals(true, allUsers.toArray(new UserProfile[allUsers.size()]));
+
+    }
+
+    @Test
+    void testAddUser() {
+        UserProfile user = new UserProfile("testLogin", "testPass", "test@mail.ru");
+        accountService.addUser(user);
+        assertEquals(true, accountService.isLoginBusy("testLogin"));
+    }
+
+    @Test
+    void testGetUser1() {
+        long id  = 1;
+        UserProfile user = accountService.getUser(id);
+        assertEquals("admin", user.getLogin());
     }
 
     @Test
     void testGetUser() {
-        UserProfile user = accountService.getUser("testLogin");
-        assertEquals("testLogin", user.getLogin());
+        long id  = 5;
+        UserProfile user = accountService.getUser(id);
+        assertEquals("", user.getLogin());
     }
 
     @Test
     void testDeleteUser() {
-        long id  = accountService.getUser("testLogin").getId();
+        long id  = 1;
         accountService.deleteUser(id);
         assertEquals("", accountService.getUser(id).getLogin());
     }

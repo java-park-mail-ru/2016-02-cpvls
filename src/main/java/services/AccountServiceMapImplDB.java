@@ -28,7 +28,7 @@ public class AccountServiceMapImplDB implements AccountService {
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/java1");
         configuration.setProperty("hibernate.connection.username", "superadm");
         configuration.setProperty("hibernate.connection.password", "123456");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         configuration.setProperty("hibernate.show_sql", "true");
         sessionFactory = createSessionFactory(configuration);
     }
