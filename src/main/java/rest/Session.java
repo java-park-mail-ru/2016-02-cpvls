@@ -1,9 +1,9 @@
 package rest;
 
 import entities.UserProfile;
-import main.AccountService;
-import main.SessionService;
 import org.json.JSONObject;
+import services.SessionService;
+import services.interfaces.AccountService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

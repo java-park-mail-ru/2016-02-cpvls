@@ -1,4 +1,4 @@
-package main;
+package services;
 
 import dao.UserDataSetDAO;
 import datasets.UserDataSet;
@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import services.interfaces.AccountService;
 
 import java.util.Collection;
 import java.util.LinkedList;

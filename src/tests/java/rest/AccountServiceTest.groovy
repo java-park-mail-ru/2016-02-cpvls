@@ -1,11 +1,11 @@
 package rest
 
 import entities.UserProfile
-import main.AccountService
-import main.AccountServiceMapImplDB
-import main.SessionService
 import org.junit.Before
 import org.junit.Test
+import services.AccountServiceMapImplDB
+import services.SessionService
+import services.interfaces.AccountService
 
 /**
  * Created by polina on 14.03.16.

@@ -1,4 +1,4 @@
-package main;
+package services.interfaces;
 
 import entities.UserProfile;
 
