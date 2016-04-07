@@ -27,7 +27,7 @@ public class Session {
 //    }
 
     @Consumes(MediaType.APPLICATION_JSON)
-    @PUT
+    @POST
     public Response login(String userInput, @Context HttpServletRequest request) {
 
         final AccountService accountService = context.get(AccountService.class);

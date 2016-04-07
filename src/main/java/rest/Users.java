@@ -50,7 +50,7 @@ public class Users {
     }
 
     @Consumes(MediaType.APPLICATION_JSON)
-    @PUT
+    @POST
     public Response createUser(String userInput, @Context HttpServletRequest request){
 
         final AccountService accountService = context.get(AccountService.class);
@@ -82,11 +82,10 @@ public class Users {
             answer.put("message", "Не удалось создать пользователя.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
-
     }
 
 
-    @POST
+    @PUT
     @Path("{id}")
     public Response editUser(@PathParam("id") Long id, String userInput, @Context HttpServletRequest request){
 
