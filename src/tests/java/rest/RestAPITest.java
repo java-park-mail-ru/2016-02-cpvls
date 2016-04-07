@@ -74,7 +74,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("password","12345");
         loginData.put("email", "mama@ya.ru");
         rightAnswer.put("id", 1);
-        target("session").request().put(Entity.json(loginData.toString()), String.class);
+        target("session").request().post(Entity.json(loginData.toString()), String.class);
         String ans = target("session").request().get(String.class);
         System.out.print(ans);
         assertEquals(ans, rightAnswer.toString());
@@ -98,7 +98,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "admin");
         loginData.put("password","12345");
         rightAnswer.put("id", 1);
-        final String ans = target("session").request().put(Entity.json(loginData.toString()), String.class);
+        final String ans = target("session").request().post(Entity.json(loginData.toString()), String.class);
         assertEquals(ans.toString(), rightAnswer.toString());
     }
 
@@ -107,7 +107,7 @@ public class RestAPITest extends JerseyTest {
         JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","don't know");
-        Response ans = target("session").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("session").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 400);
     }
 
@@ -125,7 +125,7 @@ public class RestAPITest extends JerseyTest {
         JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
-        target("session").request().put(Entity.json(loginData.toString()), String.class);
+        target("session").request().post(Entity.json(loginData.toString()), String.class);
         Response ans = target("session").request().delete(Response.class);
         assertEquals(ans.getStatus(), 200);
     }
@@ -142,7 +142,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "Brodsky");
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 200);
     }
 
@@ -151,7 +151,7 @@ public class RestAPITest extends JerseyTest {
         JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
         loginData.put("password","The end of beautiful age");
-        Response ans = target("user").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 403);
     }
 
@@ -160,7 +160,7 @@ public class RestAPITest extends JerseyTest {
         JSONObject loginData = new JSONObject();
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 403);
     }
 
@@ -169,7 +169,7 @@ public class RestAPITest extends JerseyTest {
         JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 403);
     }
 
@@ -180,7 +180,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "admin");
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "mama@ya.ru");
-        Response ans = target("user").request().put(Entity.json(loginData.toString()), Response.class);
+        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), 403);
     }
 
@@ -195,7 +195,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
-        target("session").request().put(Entity.json(loginData.toString()), String.class);
+        target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         final String ans = target("user").path("0").request().get(String.class);
         JSONObject rightAnswer = new JSONObject();
@@ -229,11 +229,11 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
-        target("session").request().put(Entity.json(loginData.toString()), String.class);
+        target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         JSONObject editData = new JSONObject();
         editData.put("email", "newadmin@mail.ru");
-        Response ans = target("user").path("1").request().post(Entity.json(editData.toString()), Response.class);
+        Response ans = target("user").path("1").request().put(Entity.json(editData.toString()), Response.class);
         System.out.print(ans.getStatusInfo());
         assertEquals(ans.getStatus(), 200);
     }
@@ -255,7 +255,7 @@ public class RestAPITest extends JerseyTest {
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
-        target("session").request().put(Entity.json(loginData.toString()), String.class);
+        target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         Response ans = target("user").path("1").request().delete(Response.class);
         System.out.print(ans.getStatusInfo());
