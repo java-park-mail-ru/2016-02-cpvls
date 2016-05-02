@@ -132,9 +132,10 @@
 
 
     <dependency>
-        <groupId>org.jetbrains</groupId>
-        <artifactId>annotations</artifactId>
-        <version>${org.jetbrains.annotations.version}</version>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-all</artifactId>
+        <version>1.6-beta-2</version>
+        <scope>test</scope>
     </dependency>
 
     <dependency>

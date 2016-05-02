@@ -41,6 +41,7 @@ class AccountServiceTest extends GroovyTestCase {
 
     @Test
     void testGetAllUsers() {
+        Collection<UserProfile> all = accountService.getAllUsers();
 
     }
 

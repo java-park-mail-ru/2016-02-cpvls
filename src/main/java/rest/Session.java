@@ -41,7 +41,7 @@ public class Session {
 
         final UserProfile foundUser = accountService.getUser(login);
 
-        if ( foundUser != null ) {
+        if ( foundUser != null && !foundUser.getLogin().isEmpty() ) {
             if ( foundUser.getPassword().equals(password) ) {
                 final String sessionId = request.getSession().getId();
                 sessionService.openSession(sessionId, foundUser);
