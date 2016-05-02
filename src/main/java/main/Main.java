@@ -14,9 +14,7 @@ import services.interfaces.AccountService;
 
 import java.util.HashSet;
 
-/**
- * @author esin88
- */
+
 public class Main {
     @SuppressWarnings("OverlyBroadThrowsClause")
     public static void main(String[] args) throws Exception {
