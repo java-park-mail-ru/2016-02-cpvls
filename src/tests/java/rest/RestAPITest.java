@@ -21,9 +21,7 @@ import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-/**
- * Created by esin on 10.03.2016.
- */
+
 public class RestAPITest extends JerseyTest {
 
     @Override
@@ -53,7 +51,7 @@ public class RestAPITest extends JerseyTest {
             }
         });
 
-        UserProfile testData = new UserProfile("admin", "12345", "admin@mail.ru");
+        final UserProfile testData = new UserProfile("admin", "12345", "admin@mail.ru");
         context.get(AccountService.class).addUser(testData);
 
         testData.setLogin("guest");
@@ -68,66 +66,66 @@ public class RestAPITest extends JerseyTest {
 
     @Test
     public void testIsAuthorizedSuccess() {
-        JSONObject loginData = new JSONObject();
-        JSONObject rightAnswer = new JSONObject();
+        final JSONObject loginData = new JSONObject();
+        final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email", "mama@ya.ru");
         rightAnswer.put("id", 1);
         target("session").request().post(Entity.json(loginData.toString()), String.class);
-        String ans = target("session").request().get(String.class);
+        final String ans = target("session").request().get(String.class);
         System.out.print(ans);
         assertEquals(ans, rightAnswer.toString());
     }
 
     @Test
     public void testIsAuthorizedFail() {
-        JSONObject loginData = new JSONObject();
-        JSONObject rightAnswer = new JSONObject();
+        final JSONObject loginData = new JSONObject();
+        final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         rightAnswer.put("id", 1);
-        Response ans = target("session").request().get(Response.class);
-        assertEquals(ans.getStatus(), 401);
+        final Response ans = target("session").request().get(Response.class);
+        assertEquals(ans.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
     @Test
     public void testLoginSuccess() {
-        JSONObject loginData = new JSONObject();
-        JSONObject rightAnswer = new JSONObject();
+        final JSONObject loginData = new JSONObject();
+        final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         rightAnswer.put("id", 1);
         final String ans = target("session").request().post(Entity.json(loginData.toString()), String.class);
-        assertEquals(ans.toString(), rightAnswer.toString());
+        assertEquals(ans, rightAnswer.toString());
     }
 
     @Test
     public void testLoginFail() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","don't know");
-        Response ans = target("session").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 400);
+        final Response ans = target("session").request().post(Entity.json(loginData.toString()), Response.class);
+        assertEquals(ans.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void testLogout() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","don't know");
-        Response ans = target("session").request().delete(Response.class);
-        assertEquals(ans.getStatus(), 200);
+        final Response ans = target("session").request().delete(Response.class);
+        assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void testLogoutAdmin() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
-        Response ans = target("session").request().delete(Response.class);
-        assertEquals(ans.getStatus(), 200);
+        final Response ans = target("session").request().delete(Response.class);
+        assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
 
 
@@ -138,50 +136,51 @@ public class RestAPITest extends JerseyTest {
 
     @Test
     public void testCreateUserSuccess() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 200);
+        final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
+        assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void testCreateUserFailEmail() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
         loginData.put("password","The end of beautiful age");
-        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 403);
+        final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
+        assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
 
     @Test
     public void testCreateUserFailLogin() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 403);
+        final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
+        assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
 
     @Test
     public void testCreateUserFailPass() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
         loginData.put("email", "Brodsky1940@mail.ru");
-        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 403);
+        final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
+        assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
 
 
     @Test
     public void testCreateUserFailLoginBusy() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","The end of beautiful age");
         loginData.put("email", "mama@ya.ru");
-        Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
-        assertEquals(ans.getStatus(), 403);
+        final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
+
+        assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
 
 
@@ -191,14 +190,14 @@ public class RestAPITest extends JerseyTest {
     public void testGetAdminSuccess() {
 
         // login
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         final String ans = target("user").path("0").request().get(String.class);
-        JSONObject rightAnswer = new JSONObject();
+        final JSONObject rightAnswer = new JSONObject();
         rightAnswer.put("id", 1);
         rightAnswer.put("login", loginData.get("login"));
         rightAnswer.put("email", loginData.get("email"));
@@ -211,31 +210,31 @@ public class RestAPITest extends JerseyTest {
 
     @Test
     public void testGetAdminFail() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
 
-        Response ans = target("user").path("1").request().get(Response.class);
+        final Response ans = target("user").path("1").request().get(Response.class);
 
-        assertEquals(ans.getStatus(), 401);
+        assertEquals(ans.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
 
 
     @Test
     public void testEditAdminSuccess() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
-        JSONObject editData = new JSONObject();
+        final JSONObject editData = new JSONObject();
         editData.put("email", "newadmin@mail.ru");
-        Response ans = target("user").path("1").request().put(Entity.json(editData.toString()), Response.class);
+        final Response ans = target("user").path("1").request().put(Entity.json(editData.toString()), Response.class);
         System.out.print(ans.getStatusInfo());
-        assertEquals(ans.getStatus(), 200);
+        assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
 
 
@@ -251,15 +250,15 @@ public class RestAPITest extends JerseyTest {
 
     @Test
     public void testDeleteAdminSuccess() {
-        JSONObject loginData = new JSONObject();
+        final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
         loginData.put("password","12345");
         loginData.put("email","admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
-        Response ans = target("user").path("1").request().delete(Response.class);
+        final Response ans = target("user").path("1").request().delete(Response.class);
         System.out.print(ans.getStatusInfo());
-        assertEquals(ans.getStatus(), 200);
+        assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
 
     }
 
@@ -267,9 +266,9 @@ public class RestAPITest extends JerseyTest {
 
     @Test
     public void testDeleteAdminFail() {
-        Response ans = target("user").path("1").request().delete(Response.class);
+        final Response ans = target("user").path("1").request().delete(Response.class);
         System.out.print(ans.getStatusInfo());
-        assertEquals(ans.getStatus(), 403);
+        assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
 }
 

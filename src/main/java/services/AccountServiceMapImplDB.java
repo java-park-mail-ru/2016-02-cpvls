@@ -21,7 +21,7 @@ public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
 
     public AccountServiceMapImplDB() {
-        Configuration configuration = new Configuration();
+        final Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
@@ -35,10 +35,10 @@ public class AccountServiceMapImplDB implements AccountService {
 
     @Override
     public Collection<UserProfile> getAllUsers() {
-        LinkedList<UserProfile> userProfiles = new LinkedList<>();
+        final LinkedList<UserProfile> userProfiles = new LinkedList<>();
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
-            List<UserDataSet> allUsers = dao.getAllUsers();
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final List<UserDataSet> allUsers = dao.getAllUsers();
             for (UserDataSet user : allUsers) {
                 userProfiles.add(new UserProfile(user));
             }
@@ -49,9 +49,9 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public UserProfile getUser(long userId) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
 
-            UserDataSet uds = dao.getUserById(userId);
+            final UserDataSet uds = dao.getUserById(userId);
             if ( uds == null )
                 return new UserProfile();
 
@@ -62,8 +62,8 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public UserProfile getUser(String login) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
-            UserDataSet uds = dao.getUserByLogin(login);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSet uds = dao.getUserByLogin(login);
             if ( uds == null )
                 return new UserProfile();
 
@@ -75,7 +75,7 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public boolean isLoginBusy(String login) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByLogin(login) != null) {
                 return true;
             }
@@ -86,7 +86,7 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public boolean isEmailBusy(String email) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByEmail(email) != null) {
                 return true;
             }
@@ -97,8 +97,8 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public long addUser(UserProfile userProfile) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSet uds = new UserDataSet(userProfile);
-            UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSet uds = new UserDataSet(userProfile);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
             if ( isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail()) ){
                 return -1;
             } else {
@@ -112,8 +112,8 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public long editUser(long userId, UserProfile userProfile) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
-            UserDataSet uds = new UserDataSet(userProfile);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSet uds = new UserDataSet(userProfile);
             dao.editUser(userId, uds);
             return userId;
         }
@@ -122,7 +122,7 @@ public class AccountServiceMapImplDB implements AccountService {
     @Override
     public void deleteUser(long userId) {
         try (Session session = sessionFactory.openSession()) {
-            UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
             dao.deleteUser(userId);
         }
     }
@@ -133,9 +133,9 @@ public class AccountServiceMapImplDB implements AccountService {
     }
 
     private static SessionFactory createSessionFactory(Configuration configuration) {
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
         builder.applySettings(configuration.getProperties());
-        ServiceRegistry serviceRegistry = builder.build();
+        final ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
 

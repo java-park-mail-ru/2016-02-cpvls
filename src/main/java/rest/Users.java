@@ -32,11 +32,11 @@ public class Users {
     @Path("{id}")
     public Response getUserById(@PathParam("id") long id, @Context HttpServletRequest request) {
 
-        JSONObject answer = new JSONObject();
+        final JSONObject answer = new JSONObject();
         final SessionService sessionService = context.get(SessionService.class);
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if( sessionUser == null ){
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
@@ -54,27 +54,27 @@ public class Users {
     public Response createUser(String userInput, @Context HttpServletRequest request){
 
         final AccountService accountService = context.get(AccountService.class);
-        JSONObject answer = new JSONObject();
-        JSONObject inp = new JSONObject(userInput);
+        final JSONObject answer = new JSONObject();
+        final JSONObject inp = new JSONObject(userInput);
 
-        String login = inp.optString("login");
-        String password = inp.optString("password");
-        String email = inp.optString("email");
+        final String login = inp.optString("login");
+        final String password = inp.optString("password");
+        final String email = inp.optString("email");
 
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
             answer.put("error", "Должны быть указаны поля логин, пароль и почта.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        UserProfile user = new UserProfile(login, password, email);
-        boolean isUserPossible = !(accountService.isLoginBusy(login));
+        final UserProfile user = new UserProfile(login, password, email);
+        final boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
             answer.put("error", "Логин занят");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        long userId = accountService.addUser(user);
+        final long userId = accountService.addUser(user);
         if(userId != -1){
             answer.put("id", userId);
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
@@ -91,18 +91,18 @@ public class Users {
 
         final AccountService accountService = context.get(AccountService.class);
         final SessionService sessionService = context.get(SessionService.class);
-        JSONObject inp = new JSONObject(userInput);
-        JSONObject answer = new JSONObject();
+        final JSONObject inp = new JSONObject(userInput);
+        final JSONObject answer = new JSONObject();
 
-        UserProfile user = accountService.getUser(id);
+        final UserProfile user = accountService.getUser(id);
         if ( user == null ) {
             answer.put("message", "Необходима авторизация.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        String login = inp.optString("login");
-        String password = inp.optString("password");
-        String email = inp.optString("email");
+        final String login = inp.optString("login");
+        final String password = inp.optString("password");
+        final String email = inp.optString("email");
 
         if( ! login.isEmpty() ) {
             if ( accountService.isLoginBusy(login) ) {
@@ -111,8 +111,8 @@ public class Users {
             }
         }
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
         if ( sessionUser == null || sessionUser.getId() != id ) {
             answer.put("status", 403);
             answer.put("message", "Чужой юзер");
@@ -126,7 +126,7 @@ public class Users {
         if ( !email.isEmpty() )
             user.setEmail(email);
 
-        long resultId = accountService.editUser(id, user);
+        final long resultId = accountService.editUser(id, user);
         answer.put("id", resultId);
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
@@ -137,10 +137,10 @@ public class Users {
 
         final AccountService accountService = context.get(AccountService.class);
         final SessionService sessionService = context.get(SessionService.class);
-        JSONObject answer = new JSONObject();
+        final JSONObject answer = new JSONObject();
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if ( sessionUser == null || sessionUser.getId() != id ) {
             answer.put("status", 403);

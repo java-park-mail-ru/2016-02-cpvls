@@ -33,17 +33,17 @@ public class Session {
         final AccountService accountService = context.get(AccountService.class);
         final SessionService sessionService = context.get(SessionService.class);
 
-        JSONObject answer = new JSONObject();
-        JSONObject inp = new JSONObject(userInput);
+        final JSONObject answer = new JSONObject();
+        final JSONObject inp = new JSONObject(userInput);
 
-        String login = inp.optString("login");
-        String password = inp.optString("password");
+        final String login = inp.optString("login");
+        final String password = inp.optString("password");
 
-        UserProfile foundUser = accountService.getUser(login);
+        final UserProfile foundUser = accountService.getUser(login);
 
         if ( foundUser != null ) {
             if ( foundUser.getPassword().equals(password) ) {
-                String sessionId = request.getSession().getId();
+                final String sessionId = request.getSession().getId();
                 sessionService.openSession(sessionId, foundUser);
 
                 answer.put("id", foundUser.getId());
@@ -58,10 +58,10 @@ public class Session {
     @GET
     public Response isAuthorized(@Context HttpServletRequest request) {
         final SessionService sessionService = context.get(SessionService.class);
-        String sessionId = request.getSession().getId();
-        UserProfile currentUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile currentUser = sessionService.getSessionData(sessionId);
 
-        JSONObject answer = new JSONObject();
+        final JSONObject answer = new JSONObject();
 
         if ( currentUser == null ) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
@@ -74,9 +74,9 @@ public class Session {
     @DELETE
     public Response logout(@Context HttpServletRequest request) {
         final SessionService sessionService = context.get(SessionService.class);
-        JSONObject answer = new JSONObject();
+        final JSONObject answer = new JSONObject();
 
-        String sessionId = request.getSession().getId();
+        final String sessionId = request.getSession().getId();
         sessionService.closeSession(sessionId);
 
         return Response.status(Response.Status.OK).entity(answer.toString()).build();

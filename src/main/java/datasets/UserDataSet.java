@@ -26,17 +26,17 @@ public class UserDataSet {
     private String email;
 
     public UserDataSet() {
-        setLogin("");
-        setPassword("");
-        setEmail("");
-        setId(-1);
+        this.login = "";
+        this.password = "";
+        this.email = "";
+        this.id = -1;
     }
 
     public UserDataSet(UserProfile profile) {
-        setLogin(profile.getLogin());
-        setPassword(profile.getPassword());
-        setEmail(profile.getEmail());
-        setId(profile.getId());
+        this.login = profile.getLogin();
+        this.password = profile.getPassword();
+        this.email = profile.getEmail();
+        this.id = profile.getId();
     }
 
     @NotNull
@@ -71,11 +71,11 @@ public class UserDataSet {
         if (obj == null || this.getClass() != obj.getClass())
             return false;
 
-        UserDataSet other = (UserDataSet) obj;
+        final UserDataSet other = (UserDataSet) obj;
 
 
-        return this.id == other.getId() && this.login.equals(other.getLogin()) && this.email.equals(other.getEmail())
-                && this.password.equals(other.getPassword());
+        return this.id == other.id && this.login.equals(other.login) && this.email.equals(other.email)
+                && this.password.equals(other.password);
     }
 
     @Override
