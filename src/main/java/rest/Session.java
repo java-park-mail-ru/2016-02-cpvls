@@ -51,7 +51,7 @@ public class Session {
             }
         }
 
-        answer.put("message", "Incorrect pair login/password");
+        answer.put("error", "Incorrect pair login/password");
         return Response.status(Response.Status.BAD_REQUEST).entity(answer.toString()).build();
     }
 

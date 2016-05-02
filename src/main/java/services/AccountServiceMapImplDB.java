@@ -14,9 +14,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author esin88
- */
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
 

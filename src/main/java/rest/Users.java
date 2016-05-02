@@ -62,7 +62,7 @@ public class Users {
         final String email = inp.optString("email");
 
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
-            answer.put("error", "Должны быть указаны поля логин, пароль и почта.");
+            answer.put("error", "Login, password, email should be specified.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -70,7 +70,7 @@ public class Users {
         final boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
-            answer.put("error", "Логин занят");
+            answer.put("error", "Login is busy.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -79,7 +79,7 @@ public class Users {
             answer.put("id", userId);
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
         } else {
-            answer.put("message", "Не удалось создать пользователя.");
+            answer.put("error", "Something goes wrong.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
     }
@@ -96,7 +96,7 @@ public class Users {
 
         final UserProfile user = accountService.getUser(id);
         if ( user == null ) {
-            answer.put("message", "Необходима авторизация.");
+            answer.put("error", "You should be authorized to perform this action.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -106,7 +106,7 @@ public class Users {
 
         if( ! login.isEmpty() ) {
             if ( accountService.isLoginBusy(login) ) {
-                answer.put("error", "Логин занят");
+                answer.put("error", "Login is busy.");
                 return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
             }
         }
@@ -114,8 +114,7 @@ public class Users {
         final String sessionId = request.getSession().getId();
         final UserProfile sessionUser = sessionService.getSessionData(sessionId);
         if ( sessionUser == null || sessionUser.getId() != id ) {
-            answer.put("status", 403);
-            answer.put("message", "Чужой юзер");
+            answer.put("error", "That's not you.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -143,8 +142,7 @@ public class Users {
         final UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if ( sessionUser == null || sessionUser.getId() != id ) {
-            answer.put("status", 403);
-            answer.put("message", "Чужой юзер");
+            answer.put("error", "That's not you.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
