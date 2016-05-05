@@ -1,6 +1,7 @@
 package rest
 
 import entities.UserProfile
+import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
 import services.AccountServiceMapImplDB
@@ -10,7 +11,7 @@ import services.interfaces.AccountService
 /**
  * Created by polina on 14.03.16.
  */
-class AccountServiceTest extends GroovyTestCase {
+class AccountServiceTest extends TestCase {
 
     private AccountService accountService;
     private SessionService sessionService;
