@@ -1,7 +1,11 @@
 package rest;
 
+import entities.UserProfile;
 import org.json.JSONObject;
+import services.SessionService;
+import services.interfaces.AccountService;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -12,36 +16,32 @@ import java.util.Collection;
 
 @Singleton
 @Path("/user")
+@Produces(MediaType.APPLICATION_JSON)
 public class Users {
-    private final AccountService accountService;
-    private final SessionService sessionService;
-
-    public Users(AccountService accountService, SessionService sessionService) {
-        this.accountService = accountService;
-        this.sessionService = sessionService;
-    }
+    @Inject
+    private main.Context context;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
+        final AccountService accountService = context.get(AccountService.class);
         final Collection<UserProfile> allUsers = accountService.getAllUsers();
         return Response.status(Response.Status.OK).entity(allUsers.toArray(new UserProfile[allUsers.size()])).build();
     }
 
     @GET
     @Path("{id}")
-    @Produces("application/json")
     public Response getUserById(@PathParam("id") long id, @Context HttpServletRequest request) {
 
-        JSONObject answer = new JSONObject();
+        final JSONObject answer = new JSONObject();
+        final SessionService sessionService = context.get(SessionService.class);
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if( sessionUser == null ){
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
-        
+
         answer.put("id", sessionUser.getId());
         answer.put("login", sessionUser.getLogin());
         answer.put("email", sessionUser.getEmail());
@@ -49,79 +49,100 @@ public class Users {
 
     }
 
-    @PUT
-    @Produces("application/json")
-    public Response createUser(@FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email){
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    public Response createUser(String userInput, @Context HttpServletRequest request){
 
-        JSONObject answer = new JSONObject();
+        final AccountService accountService = context.get(AccountService.class);
+        final JSONObject answer = new JSONObject();
+        final JSONObject inp = new JSONObject(userInput);
 
-        UserProfile user = new UserProfile(login, password, email);
-        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
-        boolean isUserPossible = isCorrectInfo && !(accountService.isLoginBusy(login));
+        final String login = inp.optString("login");
+        final String password = inp.optString("password");
+        final String email = inp.optString("email");
+
+        if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
+            answer.put("error", "Login, password, email should be specified.");
+            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        }
+
+        final UserProfile user = new UserProfile(login, password, email);
+        final boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
+            answer.put("error", "Login is busy.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        if(accountService.addUser(user)){
-            answer.put("id", user.getId());
+        final long userId = accountService.addUser(user);
+        if(userId != -1){
+            answer.put("id", userId);
             return Response.status(Response.Status.OK).entity(answer.toString()).build();
         } else {
-            answer.put("error", "Can't add user");
+            answer.put("error", "Something goes wrong.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
-
     }
 
 
-    @POST
+    @PUT
     @Path("{id}")
-    @Produces("application/json")
-    public Response editUser(@PathParam("id") Long id, @FormParam("login") String login, @FormParam("password") String password, @FormParam("email") String email, @Context HttpServletRequest request){
+    public Response editUser(@PathParam("id") Long id, String userInput, @Context HttpServletRequest request){
 
-        JSONObject answer = new JSONObject();
+        final AccountService accountService = context.get(AccountService.class);
+        final SessionService sessionService = context.get(SessionService.class);
+        final JSONObject inp = new JSONObject(userInput);
+        final JSONObject answer = new JSONObject();
 
-        UserProfile user = accountService.getUser(id);
+        final UserProfile user = accountService.getUser(id);
         if ( user == null ) {
+            answer.put("error", "You should be authorized to perform this action.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        boolean isCorrectInfo = !(login.isEmpty() || password.isEmpty() || email.isEmpty());
-        boolean isUserPossible = isCorrectInfo && accountService.isLoginBusy(login);
+        final String login = inp.optString("login");
+        final String password = inp.optString("password");
+        final String email = inp.optString("email");
 
-        if ( !isUserPossible ) {
-            return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+        if( ! login.isEmpty() ) {
+            if ( accountService.isLoginBusy(login) ) {
+                answer.put("error", "Login is busy.");
+                return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
+            }
         }
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
         if ( sessionUser == null || sessionUser.getId() != id ) {
-            answer.put("status", 403);
-            answer.put("message", "Чужой юзер");
+            answer.put("error", "That's not you.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setEmail(email);
-        answer.put("id", user.getId());
-        return Response.status(Response.Status.OK).entity(answer.toString()).build();
+        if ( !login.isEmpty() )
+            user.setLogin(login);
+        if ( !password.isEmpty() )
+            user.setPassword(password);
+        if ( !email.isEmpty() )
+            user.setEmail(email);
 
+        final long resultId = accountService.editUser(id, user);
+        answer.put("id", resultId);
+        return Response.status(Response.Status.OK).entity(answer.toString()).build();
     }
 
     @DELETE
     @Path("{id}")
-    @Produces("application/json")
     public Response deleteUser(@PathParam("id") Long id, @Context HttpServletRequest request){
 
-        JSONObject answer = new JSONObject();
+        final AccountService accountService = context.get(AccountService.class);
+        final SessionService sessionService = context.get(SessionService.class);
+        final JSONObject answer = new JSONObject();
 
-        String sessionId = request.getSession().getId();
-        UserProfile sessionUser = sessionService.getSessionData(sessionId);
+        final String sessionId = request.getSession().getId();
+        final UserProfile sessionUser = sessionService.getSessionData(sessionId);
 
         if ( sessionUser == null || sessionUser.getId() != id ) {
-            answer.put("status", 403);
-            answer.put("message", "Чужой юзер");
+            answer.put("error", "That's not you.");
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
@@ -129,7 +150,6 @@ public class Users {
         sessionService.closeSession(sessionId);
 
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
-
     }
 
 }
