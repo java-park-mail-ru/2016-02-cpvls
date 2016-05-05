@@ -40,12 +40,6 @@ class AccountServiceTest extends GroovyTestCase {
     }
 
     @Test
-    void testGetAllUsers() {
-        Collection<UserProfile> all = accountService.getAllUsers();
-
-    }
-
-    @Test
     void testAddUser() {
         UserProfile user = new UserProfile("testLogin", "testPass", "test@mail.ru");
         accountService.addUser(user);
