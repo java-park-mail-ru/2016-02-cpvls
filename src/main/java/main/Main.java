@@ -1,5 +1,6 @@
 package main;
 
+import cfg.configs;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -18,17 +19,13 @@ import java.util.HashSet;
 public class Main {
     @SuppressWarnings("OverlyBroadThrowsClause")
     public static void main(String[] args) throws Exception {
-        int port = -1;
-        if (args.length == 1) {
-            port = Integer.valueOf(args[0]);
-        } else {
-            System.err.println("Specify port");
-            System.exit(1);
-        }
 
-        System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
+        configs conf = new configs();
+        final String port = conf.server.getProperty("port");
 
-        final Server server = new Server(port);
+        System.out.append("Starting at port: ").append(port).append('\n');
+        final Server server = new Server(Integer.valueOf(port));
+
         final ServletContextHandler contextHandler = new ServletContextHandler(server, "/api/", ServletContextHandler.SESSIONS);
 
         final Context context = new Context();
@@ -54,3 +51,6 @@ public class Main {
         server.join();
     }
 }
+
+
+
