@@ -12,6 +12,7 @@ public class configs {
     final public Properties db = new Properties();
     final public Properties server = new Properties();
 
+
     int serverPort;
     String serverHost;
 
@@ -56,6 +57,9 @@ public class configs {
 
     }
 
+    public int getServerPort() {
+        return serverPort;
+    }
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
