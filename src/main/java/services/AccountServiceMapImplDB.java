@@ -1,5 +1,6 @@
 package services;
 
+import cfg.Configs;
 import dao.UserDataSetDAO;
 import datasets.UserDataSet;
 import entities.UserProfile;
@@ -17,16 +18,16 @@ import java.util.List;
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
 
-    public AccountServiceMapImplDB() {
+    public AccountServiceMapImplDB(Configs conf) {
         final Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/java1");
-        configuration.setProperty("hibernate.connection.username", "superadm");
-        configuration.setProperty("hibernate.connection.password", "123456");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.dialect", conf.getDbDialect());
+        configuration.setProperty("hibernate.connection.driver_class", conf.getDbDriver_class());
+        configuration.setProperty("hibernate.connection.url", conf.getDbUrl());
+        configuration.setProperty("hibernate.connection.username", conf.getDbUsername());
+        configuration.setProperty("hibernate.connection.password", conf.getDbPassword());
+        configuration.setProperty("hibernate.hbm2ddl.auto", conf.getDbHbm2ddlAuto());
+        configuration.setProperty("hibernate.show_sql", conf.getDbShow_sql());
         sessionFactory = createSessionFactory(configuration);
     }
 

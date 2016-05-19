@@ -1,5 +1,6 @@
 package rest;
 
+import cfg.Configs;
 import entities.UserProfile;
 import main.Context;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -28,7 +29,9 @@ public class RestAPITest extends JerseyTest {
     protected Application configure() {
         final Context context = new Context();
 
-        context.put(AccountService.class, new AccountServiceMapImplDB());
+        Configs conf = new Configs();
+
+        context.put(AccountService.class, new AccountServiceMapImplDB(conf));
         context.put(SessionService.class, new SessionService());
 
         final HashSet<Class<?>> objects = new HashSet<>();

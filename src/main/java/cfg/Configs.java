@@ -8,9 +8,9 @@ import java.util.Properties;
 /**
  * Created by polina on 26.04.16.
  */
-public class configs {
-    final public Properties db = new Properties();
-    final public Properties server = new Properties();
+public class Configs {
+    final private Properties db = new Properties();
+    final private Properties server = new Properties();
 
 
     int serverPort;
@@ -27,7 +27,7 @@ public class configs {
 
 
 
-    public configs() {
+    public Configs() {
         try {
             FileInputStream file = new FileInputStream("src/main/java/cfg/db.properties");
             db.load(file);

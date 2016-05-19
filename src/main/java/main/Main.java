@@ -3,7 +3,7 @@ package main;
 import base.AuthService;
 import base.GameMechanics;
 import base.WebSocketService;
-import cfg.configs;
+import cfg.Configs;
 import frontend.AuthServiceImpl;
 import frontend.GameServlet;
 import frontend.WebSocketGameServlet;
@@ -31,7 +31,7 @@ public class Main {
     @SuppressWarnings("OverlyBroadThrowsClause")
     public static void main(String[] args) throws Exception {
 
-        configs conf = new configs();
+        Configs conf = new Configs();
         final int port = conf.getServerPort();
 
         //System.out.append("Starting at port: ").append(port).append('\n');
@@ -43,7 +43,7 @@ public class Main {
 
 
         final Context context = new Context();
-        context.put(AccountService.class, new AccountServiceMapImplDB());
+        context.put(AccountService.class, new AccountServiceMapImplDB(conf));
         context.put(SessionService.class, new SessionService());
 
         WebSocketService webSocketService = new WebSocketServiceImpl();
