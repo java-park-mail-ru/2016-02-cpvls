@@ -1,5 +1,6 @@
 package rest
 
+import cfg.Configs
 import entities.UserProfile
 import junit.framework.TestCase
 import org.junit.Before
@@ -18,7 +19,9 @@ class AccountServiceTest extends TestCase {
 
     @Before
     public void setUp() {
-        accountService = new AccountServiceMapImplDB();
+
+        Configs conf = new Configs();
+        accountService = new AccountServiceMapImplDB(conf);
 
 
         UserProfile testData = new UserProfile("admin", "12345", "admin@mail.ru");
