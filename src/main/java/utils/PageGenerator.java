@@ -10,7 +10,9 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-
+/**
+ * @author v.chibrikov
+ */
 public class PageGenerator {
     private static final String HTML_DIR = "templates";
     private static final Configuration CFG = new Configuration();
@@ -19,7 +21,6 @@ public class PageGenerator {
         Writer stream = new StringWriter();
         try {
             Template template = CFG.getTemplate(HTML_DIR + File.separator + filename);
-            System.out.print("template = " + HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             e.printStackTrace();

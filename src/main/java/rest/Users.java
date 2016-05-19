@@ -25,6 +25,7 @@ public class Users {
     public Response getAllUsers() {
         final AccountService accountService = context.get(AccountService.class);
         final Collection<UserProfile> allUsers = accountService.getAllUsers();
+
         return Response.status(Response.Status.OK).entity(allUsers.toArray(new UserProfile[allUsers.size()])).build();
     }
 
