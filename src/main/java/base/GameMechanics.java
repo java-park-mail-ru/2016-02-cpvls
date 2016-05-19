@@ -1,8 +1,7 @@
 package base;
 
-/**
- * @author polina
- */
+
+
 public interface GameMechanics {
 
     public void addUser(String user);

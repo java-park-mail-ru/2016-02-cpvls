@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
+/**
+ * @author polina
+ */
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
@@ -29,6 +31,7 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     public void addUser(String user) {
+        System.out.print("add user = " + waiter);
         if (waiter != null) {
             starGame(user);
             waiter = null;

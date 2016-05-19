@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
 
+
 public class GameWebSocketCreator implements WebSocketCreator {
     private AuthService authService;
     private GameMechanics gameMechanics;
@@ -25,6 +26,7 @@ public class GameWebSocketCreator implements WebSocketCreator {
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
         String sessionId = req.getHttpServletRequest().getSession().getId();
         String name = authService.getUserName(sessionId);
+        System.out.print("createWebSocket " + name + "\n");
         return new GameWebSocket(name, gameMechanics, webSocketService);
     }
 }

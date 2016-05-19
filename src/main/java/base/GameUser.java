@@ -1,8 +1,7 @@
 package base;
 
-/**
- * @author polina
- */
+
+
 public class GameUser {
     private final String myName;
     private String enemyName;
