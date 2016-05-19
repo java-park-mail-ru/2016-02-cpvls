@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
+/**
+ * @author v.chibrikov
+ */
 public class GameServlet extends HttpServlet {
 
     private GameMechanics gameMechanics;
@@ -36,7 +37,7 @@ public class GameServlet extends HttpServlet {
         String safeName = name == null ? "NoName" : name;
         authService.saveUserName(request.getSession().getId(), name);
         pageVariables.put("myName", safeName);
-        System.out.print(pageVariables.toString() + "\n");
+
         response.getWriter().println(PageGenerator.getPage("game.html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");

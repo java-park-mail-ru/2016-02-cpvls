@@ -1,7 +1,8 @@
 package base;
 
-
-
+/**
+ * @author v.chibrikov
+ */
 public class GameUser {
     private final String myName;
     private String enemyName;

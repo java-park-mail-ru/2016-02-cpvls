@@ -21,7 +21,6 @@ public class GameWebSocket {
         this.myName = myName;
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
-        System.out.println("Constructor");
     }
 
     public String getMyName() {
@@ -69,9 +68,10 @@ public class GameWebSocket {
 
 
 
+
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        System.out.print("onOpen \n");
+        System.out.print("onOpen\n");
         setSession(session);
         webSocketService.addUser(this);
         gameMechanics.addUser(myName);

@@ -2,8 +2,9 @@ package base;
 
 import frontend.GameWebSocket;
 
-
-
+/**
+ * @author v.chibrikov
+ */
 public interface WebSocketService {
 
     void addUser(GameWebSocket user);

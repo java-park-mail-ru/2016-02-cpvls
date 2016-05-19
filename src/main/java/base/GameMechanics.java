@@ -1,7 +1,8 @@
 package base;
 
-
-
+/**
+ * @author v.chibrikov
+ */
 public interface GameMechanics {
 
     public void addUser(String user);
