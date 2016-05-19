@@ -1,8 +1,6 @@
 package base;
 
-/**
- * @author polina
- */
+
 public interface AuthService {
     String getUserName(String sessionId);
 

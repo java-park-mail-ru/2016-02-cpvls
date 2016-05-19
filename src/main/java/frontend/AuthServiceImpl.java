@@ -5,9 +5,8 @@ import base.AuthService;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author polina
- */
+
+
 public class AuthServiceImpl implements AuthService {
     private Map<String, String> userSessions = new HashMap<>();
 
@@ -17,5 +16,6 @@ public class AuthServiceImpl implements AuthService {
 
     public void saveUserName(String sessionId, String name) {
         userSessions.put(sessionId, name);
+        System.out.print("Seesion = " + userSessions.toString() + "\n");
     }
 }
