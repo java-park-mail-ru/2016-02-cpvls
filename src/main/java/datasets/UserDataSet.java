@@ -25,17 +25,22 @@ public class UserDataSet {
     @Column(name="email")
     private String email;
 
+    @Column(name="highscore")
+    private int highscore;
+
     public UserDataSet() {
         this.login = "";
         this.password = "";
         this.email = "";
         this.id = -1;
+        this.highscore = 0;
     }
 
     public UserDataSet(UserProfile profile) {
         this.login = profile.getLogin();
         this.password = profile.getPassword();
         this.email = profile.getEmail();
+        this.highscore = profile.getHighscore();
         this.id = profile.getId();
     }
 
@@ -65,6 +70,15 @@ public class UserDataSet {
     public String getEmail() { return email; }
 
     public void setEmail(@NotNull String email) { this.email = email; }
+
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(@NotNull int highscore) {
+        this.highscore = highscore;
+    }
+
 
     @Override
     public boolean equals(Object obj) {

@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+import rest.Highscore;
 import rest.Session;
 import rest.Users;
 import services.AccountServiceMapImplDB;
@@ -59,6 +60,7 @@ public class Main {
         final HashSet<Class<?>> objects = new HashSet<>();
         objects.add(Users.class);
         objects.add(Session.class);
+        objects.add(Highscore.class);
 
         final ResourceConfig config = new ResourceConfig(objects);
         config.register(new AbstractBinder() {

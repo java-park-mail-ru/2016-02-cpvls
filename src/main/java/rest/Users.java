@@ -46,8 +46,8 @@ public class Users {
         answer.put("id", sessionUser.getId());
         answer.put("login", sessionUser.getLogin());
         answer.put("email", sessionUser.getEmail());
+        answer.put("highscore", sessionUser.getHighscore());
         return Response.status(Response.Status.OK).entity(answer.toString()).build();
-
     }
 
     @Consumes(MediaType.APPLICATION_JSON)
@@ -67,7 +67,7 @@ public class Users {
             return Response.status(Response.Status.FORBIDDEN).entity(answer.toString()).build();
         }
 
-        final UserProfile user = new UserProfile(login, password, email);
+        final UserProfile user = new UserProfile(login, password, email, 0);
         final boolean isUserPossible = !(accountService.isLoginBusy(login));
 
         if ( !isUserPossible ) {
@@ -104,6 +104,7 @@ public class Users {
         final String login = inp.optString("login");
         final String password = inp.optString("password");
         final String email = inp.optString("email");
+        final int highscore = inp.optInt("highscore");
 
         if( ! login.isEmpty() ) {
             if ( accountService.isLoginBusy(login) ) {
@@ -125,6 +126,8 @@ public class Users {
             user.setPassword(password);
         if ( !email.isEmpty() )
             user.setEmail(email);
+        if (highscore != 0)
+            user.setHighscore(highscore);
 
         final long resultId = accountService.editUser(id, user);
         answer.put("id", resultId);
