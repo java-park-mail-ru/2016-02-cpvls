@@ -87,7 +87,6 @@ public class UserDataSet {
 
         final UserDataSet other = (UserDataSet) obj;
 
-
         return this.id == other.id && this.login.equals(other.login) && this.email.equals(other.email)
                 && this.password.equals(other.password);
     }

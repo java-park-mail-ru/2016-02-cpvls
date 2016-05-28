@@ -35,13 +35,11 @@ public class Main {
         Configs conf = new Configs();
         final int port = conf.getServerPort();
 
-        //System.out.append("Starting at port: ").append(port).append('\n');
+        System.out.append("Starting at port: "+port).append('\n');
         final Server server = new Server(port);
 
         final ServletContextHandler contextHandler = new ServletContextHandler(server, "/api/",
                 ServletContextHandler.SESSIONS);
-//       ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-
 
         final Context context = new Context();
         context.put(AccountService.class, new AccountServiceMapImplDB(conf));
@@ -83,44 +81,8 @@ public class Main {
 
 
         server.start();
-        server.join();
 
      //run GM in main thread
         gameMechanics.run();
     }
 }
-
-//
-//
-//public class Main {
-//    public static void main(String[] args) throws Exception {
-//        Server server = new Server(8080);
-//        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-//
-//        WebSocketService webSocketService = new WebSocketServiceImpl();
-//        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
-//        AuthService authService = new AuthServiceImpl();
-//
-//        //for chat example
-//        // context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
-//
-//        //for game example
-//        context.addServlet(new ServletHolder(new WebSocketGameServlet(authService, gameMechanics, webSocketService)), "/gameplay");
-//        context.addServlet(new ServletHolder(new GameServlet(gameMechanics, authService)), "/game.html");
-//
-//        ResourceHandler resource_handler = new ResourceHandler();
-//        resource_handler.setDirectoriesListed(true);
-//        resource_handler.setResourceBase("static");
-//
-//        HandlerList handlers = new HandlerList();
-//        handlers.setHandlers(new Handler[]{resource_handler, context});
-//        server.setHandler(handlers);
-//
-//        server.setHandler(handlers);
-//
-//        server.start();
-//
-//        //run GM in main thread
-//        gameMechanics.run();
-//    }
-//}

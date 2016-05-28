@@ -4,6 +4,8 @@ import cfg.Configs;
 import dao.UserDataSetDAO;
 import datasets.UserDataSet;
 import entities.UserProfile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,6 +19,9 @@ import java.util.List;
 
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
+
+    static final Logger logger = LogManager.getLogger(AccountService.class);
+
 
     public AccountServiceMapImplDB(Configs conf) {
         final Configuration configuration = new Configuration();
@@ -75,6 +80,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByLogin(login) != null) {
+                logger.info("Login" + login + " is busy");
                 return true;
             }
         }
@@ -86,6 +92,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByEmail(email) != null) {
+                logger.info("Email" + email + " is busy");
                 return true;
             }
         }
