@@ -10,12 +10,13 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
 
+@SuppressWarnings({"ConstantConditions", "unused", "unchecked"})
 @WebSocket
 public class GameWebSocket {
-    private String myName;
+    private final String myName;
     private Session session;
-    private GameMechanics gameMechanics;
-    private WebSocketService webSocketService;
+    private final GameMechanics gameMechanics;
+    private final WebSocketService webSocketService;
 
     public GameWebSocket(String myName, GameMechanics gameMechanics, WebSocketService webSocketService) {
         this.myName = myName;
@@ -32,7 +33,6 @@ public class GameWebSocket {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "start");
             jsonStart.put("enemyName", user.getEnemyName());
-            System.out.print("startGame " + jsonStart.toString() + "\n");
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -61,18 +61,17 @@ public class GameWebSocket {
                 gameMechanics.minusEnemyHP(myName);
                 System.out.print("equas to 10");
                 break;
-            default: break;
+            default:
+                break;
         }
         System.out.print(data);
     }
 
 
-
-
     @OnWebSocketConnect
     public void onOpen(Session session) {
         System.out.print("onOpen\n");
-        setSession(session);
+        this.session = session;
         webSocketService.addUser(this);
         gameMechanics.addUser(myName);
     }

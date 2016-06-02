@@ -4,6 +4,8 @@ import cfg.Configs;
 import dao.UserDataSetDAO;
 import datasets.UserDataSet;
 import entities.UserProfile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -15,8 +17,12 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
+
+    static final Logger logger = LogManager.getLogger(AccountService.class);
+
 
     public AccountServiceMapImplDB(Configs conf) {
         final Configuration configuration = new Configuration();
@@ -50,7 +56,7 @@ public class AccountServiceMapImplDB implements AccountService {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
 
             final UserDataSet uds = dao.getUserById(userId);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -62,7 +68,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             final UserDataSet uds = dao.getUserByLogin(login);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -75,6 +81,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByLogin(login) != null) {
+                logger.info("Login" + login + " is busy");
                 return true;
             }
         }
@@ -86,6 +93,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByEmail(email) != null) {
+                logger.info("Email" + email + " is busy");
                 return true;
             }
         }
@@ -97,7 +105,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSet uds = new UserDataSet(userProfile);
             final UserDataSetDAO dao = new UserDataSetDAO(session);
-            if ( isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail()) ){
+            if (isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail())) {
                 return -1;
             } else {
                 dao.addUser(uds);

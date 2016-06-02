@@ -7,14 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
+@SuppressWarnings("ConstantConditions")
 public class GameSession {
     private final long startTime;
     private final GameUser first;
     private final GameUser second;
 
-    private Map<String, GameUser> users = new HashMap<>();
+    private final Map<String, GameUser> users = new HashMap<>();
 
     public GameSession(String user1, String user2) {
         startTime = new Date().getTime();
@@ -40,7 +41,7 @@ public class GameSession {
         return users.get(user);
     }
 
-    public long getSessionTime(){
+    public long getSessionTime() {
         return new Date().getTime() - startTime;
     }
 
@@ -52,7 +53,7 @@ public class GameSession {
         return second;
     }
 
-    public  boolean isFirstWin(){
+    public boolean isFirstWin() {
         return first.getMyScore() > second.getMyScore();
     }
 }

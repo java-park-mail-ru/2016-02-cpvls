@@ -11,12 +11,13 @@ import javax.servlet.annotation.WebServlet;
 /**
  * This class represents a servlet starting a webSocket application
  */
+@SuppressWarnings("ConstantConditions")
 @WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/gameplay"})
 public class WebSocketGameServlet extends WebSocketServlet {
-    private final static int IDLE_TIME = 60 * 1000;
-    private AuthService authService;
-    private GameMechanics gameMechanics;
-    private WebSocketService webSocketService;
+    private static final int IDLE_TIME = 60 * 1000;
+    private final AuthService authService;
+    private final GameMechanics gameMechanics;
+    private final WebSocketService webSocketService;
 
     public WebSocketGameServlet(AuthService authService,
                                 GameMechanics gameMechanics,

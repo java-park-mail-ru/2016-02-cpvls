@@ -3,6 +3,7 @@ package entities;
 import datasets.UserDataSet;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class UserProfile {
 
     @NotNull
@@ -12,31 +13,46 @@ public class UserProfile {
     @NotNull
     private String email = "";
 
+    private int highscore = 0;
+
     private long id;
 
     public UserProfile() {
         login = "";
         password = "";
         email = "";
+        highscore = 0;
     }
 
     public UserProfile(UserDataSet uds) {
         login = uds.getLogin();
         password = uds.getPassword();
         email = uds.getEmail();
+        highscore = uds.getHighscore();
         id = uds.getId();
     }
+
 
     public UserProfile(@NotNull String login, @NotNull String password, @NotNull String email) {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.highscore = 0;
     }
 
-    public UserProfile(@NotNull String login, @NotNull String password, @NotNull String email, @NotNull Long id) {
+    public UserProfile(@NotNull String login, @NotNull String password, @NotNull String email, @NotNull int highscore) {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.highscore = highscore;
+    }
+
+    public UserProfile(@NotNull String login, @NotNull String password, @NotNull String email, @NotNull int highscore,
+                       @NotNull Long id) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.highscore = highscore;
         this.id = id;
     }
 
@@ -59,11 +75,29 @@ public class UserProfile {
     }
 
     @NotNull
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(@NotNull String email) { this.email = email; }
+    public void setEmail(@NotNull String email) {
+        this.email = email;
+    }
 
-    public long getId() { return id; }
 
-    public void setId(long id) { this.id = id; }
+    @NotNull
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(@NotNull int highscore) {
+        this.highscore = highscore;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

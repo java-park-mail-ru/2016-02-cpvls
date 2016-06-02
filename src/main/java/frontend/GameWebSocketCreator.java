@@ -8,12 +8,13 @@ import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
+@SuppressWarnings("ConstantConditions")
 public class GameWebSocketCreator implements WebSocketCreator {
-    private AuthService authService;
-    private GameMechanics gameMechanics;
-    private WebSocketService webSocketService;
+    private final AuthService authService;
+    private final GameMechanics gameMechanics;
+    private final WebSocketService webSocketService;
 
     public GameWebSocketCreator(AuthService authService,
                                 GameMechanics gameMechanics,

@@ -8,9 +8,10 @@ import java.util.Properties;
 /**
  * Created by polina on 26.04.16.
  */
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class Configs {
-    final private Properties db = new Properties();
-    final private Properties server = new Properties();
+    private final Properties db = new Properties();
+    private final Properties server = new Properties();
 
 
     int serverPort;
@@ -24,7 +25,6 @@ public class Configs {
     String dbPassword;
     String dbShow_sql;
     String dbHbm2ddlAuto;
-
 
 
     public Configs() {
@@ -42,18 +42,28 @@ public class Configs {
             e.printStackTrace();
         }
     }
-    public void setAll() {
-        setServerPort(Integer.valueOf(server.getProperty("port")));
-        setServerHost(server.getProperty("host"));
 
-        setDbDialect(db.getProperty("dialect"));
-        setDbDriver_class(db.getProperty("driver_class"));
-        setDbUrl(db.getProperty("url"));
-        setDbName(db.getProperty("name"));
-        setDbUsername(db.getProperty("username"));
-        setDbPassword(db.getProperty("password"));
-        setDbShow_sql(db.getProperty("show_sql"));
-        setDbHbm2ddlAuto(db.getProperty("hbm2ddl_auto"));
+    public void setAll() {
+        this.serverPort = Integer.valueOf(server.getProperty("port"));
+        this.serverHost = server.getProperty("host");
+
+        this.dbDialect = db.getProperty("dialect");
+        this.dbDriver_class = db.getProperty("driver_class");
+        this.dbUrl = db.getProperty("url");
+        this.dbName = db.getProperty("name");
+        this.dbUsername = db.getProperty("username");
+        this.dbPassword = db.getProperty("password");
+        this.dbShow_sql = db.getProperty("show_sql");
+        this.dbHbm2ddlAuto = db.getProperty("hbm2ddl_auto");
+
+        assert(this.dbDialect != null);
+        assert(this.dbDriver_class != null);
+        assert(this.dbUrl != null);
+        assert(this.dbName != null);
+        assert(this.dbUsername != null);
+        assert(this.dbPassword != null);
+        assert(this.dbShow_sql != null);
+        assert(this.dbHbm2ddlAuto != null);
 
     }
 

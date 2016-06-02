@@ -52,21 +52,21 @@ class AccountServiceTest extends TestCase {
 
     @Test
     void testGetUser1() {
-        long id  = 1;
+        long id = 1;
         UserProfile user = accountService.getUser(id);
         assertEquals("admin", user.getLogin());
     }
 
     @Test
     void testGetUser() {
-        long id  = 5;
+        long id = 5;
         UserProfile user = accountService.getUser(id);
         assertEquals("", user.getLogin());
     }
 
     @Test
     void testDeleteUser() {
-        long id  = 1;
+        long id = 1;
         accountService.deleteUser(id);
         assertEquals("", accountService.getUser(id).getLogin());
     }

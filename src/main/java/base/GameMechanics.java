@@ -1,15 +1,15 @@
 package base;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
 public interface GameMechanics {
 
-    public void addUser(String user);
+    void addUser(String user);
 
-    public void minusEnemyHP(String userName);
+    void minusEnemyHP(String userName);
 
-    public void incrementScore(String userName);
+    void incrementScore(String userName);
 
-    public void run();
+    void run();
 }
