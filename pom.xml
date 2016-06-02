@@ -172,6 +172,14 @@
             <version>1.10.19</version>
         </dependency>
 
+        <!-- http://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.6</version>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.skyscreamer</groupId>
