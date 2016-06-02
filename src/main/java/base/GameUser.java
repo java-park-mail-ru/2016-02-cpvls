@@ -1,8 +1,9 @@
 package base;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class GameUser {
     private final String myName;
     private String enemyName;

@@ -3,7 +3,7 @@ package base;
 import frontend.GameWebSocket;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
 public interface WebSocketService {
 

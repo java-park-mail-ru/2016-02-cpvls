@@ -10,19 +10,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * @author v.chibrikov
- */
+
+@SuppressWarnings("ConstantConditions")
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
     private static final int gameTime = 15 * 1000 * 1000;
 
-    private WebSocketService webSocketService;
+    private final WebSocketService webSocketService;
 
-    private Map<String, GameSession> nameToGame = new HashMap<>();
+    private final Map<String, GameSession> nameToGame = new HashMap<>();
 
-    private Set<GameSession> allSessions = new HashSet<>();
+    private final Set<GameSession> allSessions = new HashSet<>();
 
     private String waiter;
 
@@ -30,6 +29,7 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
+    @Override
     public void addUser(String user) {
         if (waiter != null) {
             starGame(user);
@@ -39,6 +39,7 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
+    @Override
     public void incrementScore(String userName) {
         GameSession myGameSession = nameToGame.get(userName);
         GameUser myUser = myGameSession.getSelf(userName);
@@ -49,6 +50,7 @@ public class GameMechanicsImpl implements GameMechanics {
         webSocketService.notifyEnemyNewScore(enemyUser);
     }
 
+    @Override
     public void minusEnemyHP(String userName) {
         GameSession myGameSession = nameToGame.get(userName);
         GameUser myUser = myGameSession.getSelf(userName);
@@ -64,6 +66,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);

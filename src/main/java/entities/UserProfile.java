@@ -3,6 +3,7 @@ package entities;
 import datasets.UserDataSet;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class UserProfile {
 
     @NotNull
@@ -11,7 +12,7 @@ public class UserProfile {
     private String password = "";
     @NotNull
     private String email = "";
-    @NotNull
+
     private int highscore = 0;
 
     private long id;
@@ -74,9 +75,13 @@ public class UserProfile {
     }
 
     @NotNull
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(@NotNull String email) { this.email = email; }
+    public void setEmail(@NotNull String email) {
+        this.email = email;
+    }
 
 
     @NotNull
@@ -88,7 +93,11 @@ public class UserProfile {
         this.highscore = highscore;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 }

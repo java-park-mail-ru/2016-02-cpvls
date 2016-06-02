@@ -13,22 +13,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author v.chibrikov
+ * @author polina.artem
  */
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class GameServlet extends HttpServlet {
 
-    private GameMechanics gameMechanics;
-    private AuthService authService;
+    private final GameMechanics gameMechanics;
+    private final AuthService authService;
 
     public GameServlet(GameMechanics gameMechanics, AuthService authService) {
         this.gameMechanics = gameMechanics;
         this.authService = authService;
     }
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
     }
 
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 

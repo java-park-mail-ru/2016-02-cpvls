@@ -20,6 +20,7 @@ import java.util.Collection;
  */
 
 
+@SuppressWarnings({"ConstantConditions", "unused", "UnusedAssignment"})
 @Singleton
 @Path("/highscores")
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,7 +32,7 @@ public class Highscore {
 
     @Consumes(MediaType.APPLICATION_JSON)
     @GET
-    public Response get_score( @Context HttpServletRequest request) {
+    public Response get_score(@Context HttpServletRequest request) {
         final SessionService sessionService = context.get(SessionService.class);
 
         final AccountService accountService = context.get(AccountService.class);
@@ -41,7 +42,7 @@ public class Highscore {
         System.out.println(allUsers);
         JSONArray answer = new JSONArray();
 
-        for (UserProfile user: allUsers) {
+        for (UserProfile user : allUsers) {
             JSONObject row = new JSONObject();
             row.put("id", user.getId());
             row.put("login", user.getLogin());

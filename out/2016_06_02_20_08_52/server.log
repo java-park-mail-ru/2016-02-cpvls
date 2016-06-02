@@ -1,0 +1,11 @@
+[06-02 20:08:52,771, 947] org.hibernate.Version HHH000412: Hibernate Core {5.1.0.Final}
+[06-02 20:08:52,773, 949] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[06-02 20:08:52,775, 951] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[06-02 20:08:52,831, 1007] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[06-02 20:08:52,917, 1093] org.hibernate.orm.connections HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[06-02 20:08:52,923, 1099] org.hibernate.orm.connections HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/java1]
+[06-02 20:08:52,924, 1100] org.hibernate.orm.connections HHH10001001: Connection properties: {user=superadm, password=****}
+[06-02 20:08:52,924, 1100] org.hibernate.orm.connections HHH10001003: Autocommit mode: false
+[06-02 20:08:52,927, 1103] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl HHH000115: Hibernate connection pool size: 20 (min=1)
+[06-02 20:08:53,376, 1552] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+[06-02 20:08:53,449, 1625] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4

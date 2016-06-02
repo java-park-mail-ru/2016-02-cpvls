@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
 
@@ -55,7 +56,7 @@ public class AccountServiceMapImplDB implements AccountService {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
 
             final UserDataSet uds = dao.getUserById(userId);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -67,7 +68,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             final UserDataSet uds = dao.getUserByLogin(login);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -104,7 +105,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSet uds = new UserDataSet(userProfile);
             final UserDataSetDAO dao = new UserDataSetDAO(session);
-            if ( isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail()) ){
+            if (isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail())) {
                 return -1;
             } else {
                 dao.addUser(uds);

@@ -2,6 +2,7 @@ package reflection;
 
 import java.lang.reflect.Field;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class ReflectionHelper {
     public static Object createInstance(String className) {
         try {

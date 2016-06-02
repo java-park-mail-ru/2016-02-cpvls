@@ -28,6 +28,7 @@ import org.eclipse.jetty.server.Handler;
 import java.util.HashSet;
 
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class Main {
     @SuppressWarnings("OverlyBroadThrowsClause")
     public static void main(String[] args) throws Exception {
@@ -35,7 +36,6 @@ public class Main {
         Configs conf = new Configs();
         final int port = conf.getServerPort();
 
-        System.out.append("Starting at port: "+port).append('\n');
         final Server server = new Server(port);
 
         final ServletContextHandler contextHandler = new ServletContextHandler(server, "/api/",
@@ -82,7 +82,7 @@ public class Main {
 
         server.start();
 
-     //run GM in main thread
+        //run GM in main thread
         gameMechanics.run();
     }
 }
