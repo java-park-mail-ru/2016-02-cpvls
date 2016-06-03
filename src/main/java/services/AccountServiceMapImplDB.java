@@ -1,8 +1,11 @@
 package services;
 
+import cfg.Configs;
 import dao.UserDataSetDAO;
 import datasets.UserDataSet;
 import entities.UserProfile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,19 +17,23 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class AccountServiceMapImplDB implements AccountService {
     private final SessionFactory sessionFactory;
 
-    public AccountServiceMapImplDB() {
+    static final Logger logger = LogManager.getLogger(AccountService.class);
+
+
+    public AccountServiceMapImplDB(Configs conf) {
         final Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/java1");
-        configuration.setProperty("hibernate.connection.username", "superadm");
-        configuration.setProperty("hibernate.connection.password", "123456");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.dialect", conf.getDbDialect());
+        configuration.setProperty("hibernate.connection.driver_class", conf.getDbDriver_class());
+        configuration.setProperty("hibernate.connection.url", conf.getDbUrl());
+        configuration.setProperty("hibernate.connection.username", conf.getDbUsername());
+        configuration.setProperty("hibernate.connection.password", conf.getDbPassword());
+        configuration.setProperty("hibernate.hbm2ddl.auto", conf.getDbHbm2ddlAuto());
+        configuration.setProperty("hibernate.show_sql", conf.getDbShow_sql());
         sessionFactory = createSessionFactory(configuration);
     }
 
@@ -49,7 +56,7 @@ public class AccountServiceMapImplDB implements AccountService {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
 
             final UserDataSet uds = dao.getUserById(userId);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -61,7 +68,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             final UserDataSet uds = dao.getUserByLogin(login);
-            if ( uds == null )
+            if (uds == null)
                 return new UserProfile();
 
             return new UserProfile(uds);
@@ -74,6 +81,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByLogin(login) != null) {
+                logger.info("Login" + login + " is busy");
                 return true;
             }
         }
@@ -85,6 +93,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSetDAO dao = new UserDataSetDAO(session);
             if (dao.getUserByEmail(email) != null) {
+                logger.info("Email" + email + " is busy");
                 return true;
             }
         }
@@ -96,7 +105,7 @@ public class AccountServiceMapImplDB implements AccountService {
         try (Session session = sessionFactory.openSession()) {
             final UserDataSet uds = new UserDataSet(userProfile);
             final UserDataSetDAO dao = new UserDataSetDAO(session);
-            if ( isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail()) ){
+            if (isLoginBusy(uds.getLogin()) || isEmailBusy(uds.getEmail())) {
                 return -1;
             } else {
                 dao.addUser(uds);

@@ -1,5 +1,6 @@
 package rest
 
+import cfg.Configs
 import entities.UserProfile
 import junit.framework.TestCase
 import org.junit.Before
@@ -18,7 +19,9 @@ class AccountServiceTest extends TestCase {
 
     @Before
     public void setUp() {
-        accountService = new AccountServiceMapImplDB();
+
+        Configs conf = new Configs();
+        accountService = new AccountServiceMapImplDB(conf);
 
 
         UserProfile testData = new UserProfile("admin", "12345", "admin@mail.ru");
@@ -49,21 +52,21 @@ class AccountServiceTest extends TestCase {
 
     @Test
     void testGetUser1() {
-        long id  = 1;
+        long id = 1;
         UserProfile user = accountService.getUser(id);
         assertEquals("admin", user.getLogin());
     }
 
     @Test
     void testGetUser() {
-        long id  = 5;
+        long id = 5;
         UserProfile user = accountService.getUser(id);
         assertEquals("", user.getLogin());
     }
 
     @Test
     void testDeleteUser() {
-        long id  = 1;
+        long id = 1;
         accountService.deleteUser(id);
         assertEquals("", accountService.getUser(id).getLogin());
     }

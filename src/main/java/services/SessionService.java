@@ -5,6 +5,7 @@ import entities.UserProfile;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ConstantConditions")
 public class SessionService {
     private final Map<String, UserProfile> currentSessions = new HashMap<>();
 

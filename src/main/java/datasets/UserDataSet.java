@@ -8,6 +8,7 @@ import javax.persistence.*;
 /**
  * Created by puhovity on 30.03.16.
  */
+@SuppressWarnings({"ConstantConditions", "unused"})
 @Entity
 @Table(name = "users")
 public class UserDataSet {
@@ -19,23 +20,28 @@ public class UserDataSet {
     @Column(name = "login")
     private String login;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "highscore")
+    private int highscore;
 
     public UserDataSet() {
         this.login = "";
         this.password = "";
         this.email = "";
         this.id = -1;
+        this.highscore = 0;
     }
 
     public UserDataSet(UserProfile profile) {
         this.login = profile.getLogin();
         this.password = profile.getPassword();
         this.email = profile.getEmail();
+        this.highscore = profile.getHighscore();
         this.id = profile.getId();
     }
 
@@ -57,14 +63,31 @@ public class UserDataSet {
         this.password = password;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @NotNull
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(@NotNull String email) { this.email = email; }
+    public void setEmail(@NotNull String email) {
+        this.email = email;
+    }
+
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(int highscore) {
+        this.highscore = highscore;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -73,13 +96,13 @@ public class UserDataSet {
 
         final UserDataSet other = (UserDataSet) obj;
 
-
+        //noinspection OverlyComplexBooleanExpression
         return this.id == other.id && this.login.equals(other.login) && this.email.equals(other.email)
                 && this.password.equals(other.password);
     }
 
     @Override
     public int hashCode() {
-        return 133*login.hashCode()*email.hashCode();
+        return 133 * login.hashCode() * email.hashCode();
     }
 }

@@ -1,5 +1,6 @@
 package rest;
 
+import cfg.Configs;
 import entities.UserProfile;
 import main.Context;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -22,13 +23,16 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("ConstantConditions")
 public class RestAPITest extends JerseyTest {
 
     @Override
     protected Application configure() {
         final Context context = new Context();
 
-        context.put(AccountService.class, new AccountServiceMapImplDB());
+        Configs conf = new Configs();
+
+        context.put(AccountService.class, new AccountServiceMapImplDB(conf));
         context.put(SessionService.class, new SessionService());
 
         final HashSet<Class<?>> objects = new HashSet<>();
@@ -69,7 +73,7 @@ public class RestAPITest extends JerseyTest {
         final JSONObject loginData = new JSONObject();
         final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
+        loginData.put("password", "12345");
         loginData.put("email", "mama@ya.ru");
         rightAnswer.put("id", 1);
         target("session").request().post(Entity.json(loginData.toString()), String.class);
@@ -83,7 +87,7 @@ public class RestAPITest extends JerseyTest {
         final JSONObject loginData = new JSONObject();
         final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
+        loginData.put("password", "12345");
         rightAnswer.put("id", 1);
         final Response ans = target("session").request().get(Response.class);
         assertEquals(ans.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
@@ -94,7 +98,7 @@ public class RestAPITest extends JerseyTest {
         final JSONObject loginData = new JSONObject();
         final JSONObject rightAnswer = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
+        loginData.put("password", "12345");
         rightAnswer.put("id", 1);
         final String ans = target("session").request().post(Entity.json(loginData.toString()), String.class);
         assertEquals(ans, rightAnswer.toString());
@@ -104,7 +108,7 @@ public class RestAPITest extends JerseyTest {
     public void testLoginFail() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","don't know");
+        loginData.put("password", "don't know");
         final Response ans = target("session").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -113,7 +117,7 @@ public class RestAPITest extends JerseyTest {
     public void testLogout() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","don't know");
+        loginData.put("password", "don't know");
         final Response ans = target("session").request().delete(Response.class);
         assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
@@ -122,13 +126,11 @@ public class RestAPITest extends JerseyTest {
     public void testLogoutAdmin() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
+        loginData.put("password", "12345");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
         final Response ans = target("session").request().delete(Response.class);
         assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
     }
-
-
 
 
     // ============================================   Пользователи   ==============
@@ -138,7 +140,7 @@ public class RestAPITest extends JerseyTest {
     public void testCreateUserSuccess() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
-        loginData.put("password","The end of beautiful age");
+        loginData.put("password", "The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
         final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
@@ -148,7 +150,7 @@ public class RestAPITest extends JerseyTest {
     public void testCreateUserFailEmail() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "Brodsky");
-        loginData.put("password","The end of beautiful age");
+        loginData.put("password", "The end of beautiful age");
         final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
     }
@@ -156,7 +158,7 @@ public class RestAPITest extends JerseyTest {
     @Test
     public void testCreateUserFailLogin() {
         final JSONObject loginData = new JSONObject();
-        loginData.put("password","The end of beautiful age");
+        loginData.put("password", "The end of beautiful age");
         loginData.put("email", "Brodsky1940@mail.ru");
         final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
         assertEquals(ans.getStatus(), Response.Status.FORBIDDEN.getStatusCode());
@@ -176,7 +178,7 @@ public class RestAPITest extends JerseyTest {
     public void testCreateUserFailLoginBusy() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","The end of beautiful age");
+        loginData.put("password", "The end of beautiful age");
         loginData.put("email", "mama@ya.ru");
         final Response ans = target("user").request().post(Entity.json(loginData.toString()), Response.class);
 
@@ -192,8 +194,8 @@ public class RestAPITest extends JerseyTest {
         // login
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
-        loginData.put("email","admin@mail.ru");
+        loginData.put("password", "12345");
+        loginData.put("email", "admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         final String ans = target("user").path("0").request().get(String.class);
@@ -212,8 +214,8 @@ public class RestAPITest extends JerseyTest {
     public void testGetAdminFail() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
-        loginData.put("email","admin@mail.ru");
+        loginData.put("password", "12345");
+        loginData.put("email", "admin@mail.ru");
 
         final Response ans = target("user").path("1").request().get(Response.class);
 
@@ -221,13 +223,12 @@ public class RestAPITest extends JerseyTest {
     }
 
 
-
     @Test
     public void testEditAdminSuccess() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
-        loginData.put("email","admin@mail.ru");
+        loginData.put("password", "12345");
+        loginData.put("email", "admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         final JSONObject editData = new JSONObject();
@@ -238,8 +239,6 @@ public class RestAPITest extends JerseyTest {
     }
 
 
-
-
     @Test
     public void testGetAllUsers() {
         final String ans = target("user").request().get(String.class);
@@ -247,13 +246,12 @@ public class RestAPITest extends JerseyTest {
     }
 
 
-
     @Test
     public void testDeleteAdminSuccess() {
         final JSONObject loginData = new JSONObject();
         loginData.put("login", "admin");
-        loginData.put("password","12345");
-        loginData.put("email","admin@mail.ru");
+        loginData.put("password", "12345");
+        loginData.put("email", "admin@mail.ru");
         target("session").request().post(Entity.json(loginData.toString()), String.class);
 
         final Response ans = target("user").path("1").request().delete(Response.class);
@@ -261,7 +259,6 @@ public class RestAPITest extends JerseyTest {
         assertEquals(ans.getStatus(), Response.Status.OK.getStatusCode());
 
     }
-
 
 
     @Test

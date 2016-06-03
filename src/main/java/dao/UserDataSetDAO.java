@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
+@SuppressWarnings("ConstantConditions")
 public class UserDataSetDAO {
     private final Session session;
 

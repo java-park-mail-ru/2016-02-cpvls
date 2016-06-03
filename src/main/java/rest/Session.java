@@ -13,6 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@SuppressWarnings({"ConstantConditions", "unused"})
 @Singleton
 @Path("/session")
 @Produces(MediaType.APPLICATION_JSON)
@@ -41,8 +42,8 @@ public class Session {
 
         final UserProfile foundUser = accountService.getUser(login);
 
-        if ( foundUser != null && !foundUser.getLogin().isEmpty() ) {
-            if ( foundUser.getPassword().equals(password) ) {
+        if (foundUser != null && !foundUser.getLogin().isEmpty()) {
+            if (foundUser.getPassword().equals(password)) {
                 final String sessionId = request.getSession().getId();
                 sessionService.openSession(sessionId, foundUser);
 
@@ -63,7 +64,7 @@ public class Session {
 
         final JSONObject answer = new JSONObject();
 
-        if ( currentUser == null ) {
+        if (currentUser == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(answer.toString()).build();
         }
 
